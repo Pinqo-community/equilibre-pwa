@@ -8,14 +8,15 @@ async function getKeyMaterial() {
 function generateIv() {
   return crypto.getRandomValues(new Uint8Array(12));
 }
-async function encrypt(data: string | undefined, iv: Uint8Array) {
+
+async function deriveKey(salt: Uint8Array) {
   const keyMaterial = await getKeyMaterial();
-  const salt = crypto.getRandomValues(new Uint8Array(16));
-  const derivedKey = await window.crypto.subtle.deriveKey(
+
+  return await window.crypto.subtle.deriveKey(
     {
       name: "PBKDF2",
       salt,
-      iterations: 1000,
+      iterations: 100000,
       hash: "SHA-256",
     },
     keyMaterial,
@@ -26,13 +27,28 @@ async function encrypt(data: string | undefined, iv: Uint8Array) {
     true,
     ["encrypt", "decrypt"]
   );
+}
+export async function encrypt(data: string | undefined) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const derivedKey = await deriveKey(salt);
 
   if (typeof data === "undefined") {
     throw new Error("No data to encrypt");
   }
 
   const dataToEncrypt = new TextEncoder().encode(data);
-  iv = generateIv();
+  const iv = generateIv();
+  const encryptedData = await window.crypto.subtle.encrypt({ name: "AES-GCM", iv }, derivedKey, dataToEncrypt);
 
-  return window.crypto.subtle.encrypt({ name: "AES-GCM", iv }, derivedKey, dataToEncrypt);
+  return { encryptedData, iv, salt };
+}
+
+export async function decrypt(data: Uint8Array | undefined, iv: Uint8Array, salt: Uint8Array) {
+  if (typeof data === "undefined") {
+    throw new Error("No data to decrypt");
+  }
+
+  const derivedKey = await deriveKey(salt);
+
+  return window.crypto.subtle.decrypt({ name: "AES-GCM", iv }, derivedKey, data);
 }
