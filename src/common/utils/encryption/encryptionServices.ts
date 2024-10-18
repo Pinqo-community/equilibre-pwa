@@ -1,12 +1,29 @@
+import { Mood } from "../../../MoodSelection/types";
+import { EncryptedData } from "./types";
+
 const MASTER_PASSWORD = "password";
 
 async function getKeyMaterial() {
   const enc = new TextEncoder();
-  return await window.crypto.subtle.importKey("raw", enc.encode(MASTER_PASSWORD), "PBKDF2", false, ["deriveKey"]);
+  return await window.crypto.subtle.importKey(
+    "raw",
+    enc.encode(MASTER_PASSWORD),
+    "PBKDF2",
+    false,
+    ["deriveKey"]
+  );
 }
 
 function generateIv() {
   return crypto.getRandomValues(new Uint8Array(12));
+}
+
+function serializeMood(data: Mood) {
+  return new TextEncoder().encode(JSON.stringify(data));
+}
+
+function parsingMood(data: any) {
+  return JSON.parse(new TextDecoder().decode(data));
 }
 
 async function deriveKey(salt: Uint8Array) {
@@ -28,27 +45,40 @@ async function deriveKey(salt: Uint8Array) {
     ["encrypt", "decrypt"]
   );
 }
-export async function encrypt(data: string | undefined) {
-  const salt = crypto.getRandomValues(new Uint8Array(16));
-  const derivedKey = await deriveKey(salt);
-
+export async function encryptData(
+  data: Mood | undefined
+): Promise<EncryptedData> {
   if (typeof data === "undefined") {
     throw new Error("No data to encrypt");
   }
 
-  const dataToEncrypt = new TextEncoder().encode(data);
+  const dataToEncrypt = serializeMood(data);
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const derivedKey = await deriveKey(salt);
   const iv = generateIv();
-  const encryptedData = await window.crypto.subtle.encrypt({ name: "AES-GCM", iv }, derivedKey, dataToEncrypt);
+  const encryptedData = await window.crypto.subtle.encrypt(
+    { name: "AES-GCM", iv },
+    derivedKey,
+    dataToEncrypt
+  );
 
-  return { encryptedData, iv, salt };
+  return { data: encryptedData, iv, salt };
 }
 
-export async function decrypt(data: Uint8Array | undefined, iv: Uint8Array, salt: Uint8Array) {
-  if (typeof data === "undefined") {
+export async function decryptData(
+  encryptedData: EncryptedData | undefined
+): Promise<string> {
+  if (!encryptedData || encryptedData === undefined) {
     throw new Error("No data to decrypt");
   }
 
+  const { data, iv, salt } = encryptedData;
   const derivedKey = await deriveKey(salt);
+  const decryptedData = await window.crypto.subtle.decrypt(
+    { name: "AES-GCM", iv },
+    derivedKey,
+    data
+  );
 
-  return window.crypto.subtle.decrypt({ name: "AES-GCM", iv }, derivedKey, data);
+  return parsingMood(decryptedData);
 }
