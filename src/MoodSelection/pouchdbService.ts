@@ -26,7 +26,10 @@ export const fetchMoods = async (): Promise<Mood[]> => {
   try {
     // descending? : trie les notes dans l'ordre descendant si voulu
     /* Pour fetch un certain nombre de moods (par exemple 5), possibilité d'ajouter limit:5 */
-    const allMoods = await moods_db.allDocs({ include_docs: true, descending: true });
+    const allMoods = await moods_db.allDocs({
+      include_docs: true,
+      descending: true,
+    });
     return allMoods.rows.map((row) => row.doc) as Mood[];
   } catch (err) {
     console.error("Error fetching moods from PouchDB", err);
@@ -45,7 +48,9 @@ export const softDeleteMood = async (id: string) => {
     await moods_db.remove(mood);
   } catch (err: any) {
     // séparation de la 404, peut être retiré.
-    err.status === 404 ? console.warn(`Mood with id ${id} not found.`) : console.error("Error soft deleting mood from PouchDB", err);
+    err.status === 404
+      ? console.warn(`Mood with id ${id} not found.`)
+      : console.error("Error soft deleting mood from PouchDB", err);
   }
 };
 
@@ -65,7 +70,9 @@ export const updateMood = async (mood: Mood): Promise<Mood> => {
     return { ...updatedMood, _rev: result.rev };
   } catch (err: any) {
     // séparation de la 404, peut être retiré.
-    err.status === 404 ? console.warn(`Mood with id ${mood._id} not found.`) : console.error("Error updating note:", err);
+    err.status === 404
+      ? console.warn(`Mood with id ${mood._id} not found.`)
+      : console.error("Error updating note:", err);
     throw err;
   }
 };

@@ -30,6 +30,8 @@ function App() {
       {/* Form */}
       {/* h2 select a mood */}
       {/* Moods récents */}
+      {/* <a href=""></a> */}
+      {/* <img src="" /> */}
       <PWABadge />
     </>
   );
