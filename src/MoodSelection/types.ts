@@ -1,9 +1,10 @@
 export interface Mood {
-  _id: string; // On peut utiliser la date en tant que uniqueID pour l'isntnat
+  _id: string; // On peut utiliser la date en tant que uniqueID pour l'instant
   _rev?: string; // Nécessaire pour la modification dans pouchDb. '?' car n'existe pas avant d'être enregistré dans PouchDB.
-  createdAt: string; // Date utilisée pour le uniqueID.
-  description: string; // Note laissée par l'utilisateur, peut être facultative (ajouter '?')
-  number: number; // Discussion de mood en note/5 ou 10 plutot que texte (si texte changer en string)
+  createdAt: string;
+  feeling: string; // A changer en Feeling
+  emotion: string; // A changer en Emotion
+  note: string; // Note required pour l'instant
   // updatedAt?: string; // Date de la dernière modification. Uncomment si besoin.
 
   // (Discussion note audio) => Si on attache une note Audio, on rajoute un pouchDB attachment
@@ -17,3 +18,6 @@ export interface Mood {
     };
   }; */
 }
+
+/* export type Feeling = "agreable" | "disagreable" | "neutral";
+export type Emotion = "joy" | "sadness" | "anger" | "love" | "disgust" | "fear"; */
