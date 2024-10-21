@@ -23,58 +23,72 @@ const MoodForm: React.FC = () => {
     try {
       const savedMood = await addMood(newMood);
       setMessage("Mood added successfully");
-
-      // clear
+      console.log(savedMood);
       setEmotion("");
       setFeeling("");
       setNote("");
-
-      console.log(savedMood);
     } catch (error) {
       setMessage("Error adding mood.");
-      console.log("Error adding mood: ", error);
+      console.error("Error adding mood: ", error);
     }
   };
 
   return (
-    <>
-      {message && <p>{message}</p>}
-      <form onSubmit={handleFormSubmission}>
-        <div className="form-group">
-          <label htmlFor="feeling">Feeling</label>
-          <input
-            type="text"
-            value={feeling}
-            name="feeling"
-            id="feeling"
-            onChange={(e) => setFeeling(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="emotion">Emotion</label>
-          <input
-            type="text"
-            name="emotion"
-            value={emotion}
-            id="emotion"
-            onChange={(e) => setEmotion(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="note">Note (écrite)</label>
-          <textarea
-            id="note"
-            name="note"
-            value={note}
-            placeholder="Ma journée s'est bien passée"
-            onChange={(e) => setNote(e.target.value)}
-          ></textarea>
-        </div>
-        <button className="bg-blue-500" type="submit">
-          Enregistrer
-        </button>
-      </form>
-    </>
+    <form onSubmit={handleFormSubmission} className="space-y-4">
+      {message && (
+        <p className="text-center font-bold text-gray-500 border p-2">
+          {message}
+        </p>
+      )}
+      <div className="form-group">
+        <label htmlFor="feeling" className="block mb-1">
+          Feeling
+        </label>
+        <input
+          type="text"
+          value={feeling}
+          name="feeling"
+          id="feeling"
+          required
+          onChange={(e) => setFeeling(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="emotion" className="block mb-1">
+          Emotion
+        </label>
+        <input
+          type="text"
+          name="emotion"
+          value={emotion}
+          id="emotion"
+          required
+          onChange={(e) => setEmotion(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="note" className="block mb-1">
+          Note (écrite)
+        </label>
+        <textarea
+          id="note"
+          name="note"
+          value={note}
+          required
+          placeholder="Ma journée s'est bien passée"
+          onChange={(e) => setNote(e.target.value)}
+          className="w-full p-2 border rounded"
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors"
+      >
+        Enregistrer
+      </button>
+    </form>
   );
 };
 

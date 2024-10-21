@@ -1,7 +1,10 @@
 import PouchDB from "pouchdb";
 import { Mood } from "./types";
 
-const moods_db = new PouchDB<Mood>("equilibre_db", { auto_compaction: true });
+const moods_db = new PouchDB<Mood>("equilibre_db", {
+  auto_compaction: true,
+  //TODO: check adapter https://pouchdb.com/api.html#adapter et https://pouchdb.com/api.html#purge
+});
 
 /* 'By default, PouchDB and CouchDB are designed to store all document revisions forever. (...) However, if you allow 
 your database to grow without bounds, it can end up taking up much more space than you need.  This can especially 
@@ -59,9 +62,9 @@ export const updateMood = async (mood: Mood): Promise<Mood> => {
     // Récupere le mood à modifier avec son _id existant
     const moodToUpdate = await moods_db.get(mood._id);
 
-    // Garde l'_id & le _rev existants, met à jour la description
+    // Garde l'_id & le _rev existants, met à jour la note
     // en partant du principe que l'utilisateur n'edit que la note ajoutée à son mood pour l'instant
-    const updatedMood = { ...moodToUpdate, description: mood.note };
+    const updatedMood = { ...moodToUpdate, note: mood.note };
 
     // Met à jour le mood dans Pouch db
     const result = await moods_db.put(updatedMood);
@@ -74,8 +77,18 @@ export const updateMood = async (mood: Mood): Promise<Mood> => {
   }
 };
 
-// Todo: fullDeleteMoodFromDb() ou purgeMoodFromDb()
-// Todo: deleteDbFromDevice()
 export const deleteDbFromDevice = async () => {
   await moods_db.destroy();
 };
+
+// Todo: fullDeleteMoodFromDb() ou purgeMoodFromDb()
+/* 
+export const purgeMoodFromDb = async (id: string) => {
+try {
+  const moodToPurge = await moods_db.get(id);
+  await moods_db.purge(moodToPurge, moodToPurge._rev); // TODO: pas conseillé (uniquement en cas de leak bancaire ou autre) check comment ça marche https://pouchdb.com/api.html#purge (et adapter)
+} catch (err) {
+  console.error("Error purging mood from PouchDB: ", err);
+}
+}; 
+*/
