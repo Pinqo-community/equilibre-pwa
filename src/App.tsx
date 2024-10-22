@@ -1,5 +1,5 @@
-import PWABadge from "./PWABadge.tsx";
-import MoodForm from "./components/MoodForm.tsx";
+import PWABadge from "./pwa/PWABadge.tsx";
+import MoodForm from "./components/MoodForm/MoodForm.tsx";
 
 function App() {
   return (

@@ -1,8 +1,9 @@
-import { Mood } from "../MoodSelection/types";
-import { addMood } from "../MoodSelection/pouchdbService";
+import useMoods from "../../hooks/useMoods";
+import { Mood } from "../../types/Mood";
 import { useState } from "react";
 
 const MoodForm: React.FC = () => {
+  const { addMood } = useMoods();
   const [feeling, setFeeling] = useState("");
   const [emotion, setEmotion] = useState("");
   const [note, setNote] = useState("");
@@ -70,7 +71,7 @@ const MoodForm: React.FC = () => {
       </div>
       <div className="form-group">
         <label htmlFor="note" className="block mb-1">
-          Note (écrite)
+          Note
         </label>
         <textarea
           id="note"
