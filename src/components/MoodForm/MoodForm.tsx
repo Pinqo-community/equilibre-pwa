@@ -1,13 +1,15 @@
 import useMoods from "../../hooks/useMoods";
-import { Mood } from "../../types/Mood";
+import { Feeling, Mood } from "../../types/Mood";
 import { useState } from "react";
 
 const MoodForm: React.FC = () => {
   const { addMood } = useMoods();
-  const [feeling, setFeeling] = useState("");
+  const [feeling, setFeeling] = useState<Feeling | undefined>(undefined);
   const [emotion, setEmotion] = useState("");
   const [note, setNote] = useState("");
   const [message, setMessage] = useState("");
+
+  const feelings: Feeling[] = ["agreable", "disagreable", "neutral"];
 
   const handleFormSubmission = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,7 +18,7 @@ const MoodForm: React.FC = () => {
     const newMood: Mood = {
       _id: newDate,
       createdAt: newDate,
-      feeling,
+      feeling: feeling!,
       emotion,
       note,
     };
@@ -26,7 +28,7 @@ const MoodForm: React.FC = () => {
       setMessage("Mood added successfully");
       console.log(savedMood);
       setEmotion("");
-      setFeeling("");
+      setFeeling(undefined);
       setNote("");
     } catch (error) {
       setMessage("Error adding mood.");
@@ -41,20 +43,29 @@ const MoodForm: React.FC = () => {
           {message}
         </p>
       )}
-      <div className="form-group">
-        <label htmlFor="feeling" className="block mb-1">
-          Feeling
-        </label>
-        <input
-          type="text"
-          value={feeling}
-          name="feeling"
-          id="feeling"
-          required
-          onChange={(e) => setFeeling(e.target.value)}
-          className="w-full p-2 border rounded"
-        />
-      </div>
+
+      {/* Form Step1 */}
+      <fieldset>
+        <legend>
+          <h2>How would you describe your general feelings?</h2>
+        </legend>
+        {feelings.map((f) => (
+          <div key={f}>
+            <input
+              type="radio"
+              name="feeling"
+              id={f}
+              value={f}
+              required
+              checked={feeling === f}
+              onChange={(e) => setFeeling(e.target.value as Feeling)}
+            />
+            <label htmlFor={f}>{f}</label>
+          </div>
+        ))}
+      </fieldset>
+      {/* End of Form Step 1 */}
+
       <div className="form-group">
         <label htmlFor="emotion" className="block mb-1">
           Emotion
@@ -83,10 +94,7 @@ const MoodForm: React.FC = () => {
           className="w-full p-2 border rounded"
         ></textarea>
       </div>
-      <button
-        type="submit"
-        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors"
-      >
+      <button type="submit" className="">
         Enregistrer
       </button>
     </form>

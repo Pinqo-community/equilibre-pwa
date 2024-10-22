@@ -6,9 +6,10 @@ function App() {
     <>
       <h1>Equilibre</h1>
 
-      <MoodForm />
-      {/* <a href=""></a> */}
-      {/* <img src="" /> */}
+      <main>
+        <MoodForm />
+      </main>
+
       <PWABadge />
     </>
   );
