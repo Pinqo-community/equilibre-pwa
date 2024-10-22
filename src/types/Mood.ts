@@ -2,8 +2,8 @@ export interface Mood {
   _id: string; // On peut utiliser la date en tant que uniqueID pour l'instant
   _rev?: string; // Nécessaire pour la modification dans pouchDb. '?' car n'existe pas avant d'être enregistré dans PouchDB.
   createdAt: string;
-  feeling: Feeling; // A changer en Feeling
-  emotion: Emotion; // A changer en Emotion
+  feeling: Feeling;
+  emotion: Emotion;
   note: string; // Note required pour l'instant
   // updatedAt?: string; // Date de la dernière modification. Uncomment si besoin.
 

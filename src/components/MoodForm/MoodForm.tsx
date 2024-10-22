@@ -1,6 +1,7 @@
 import useMoods from "../../hooks/useMoods";
 import { Emotion, Feeling, Mood } from "../../types/Mood";
 import { useState } from "react";
+import InputRadioItem from "../reusable/InputRadioItem";
 
 const MoodForm: React.FC = () => {
   const { addMood } = useMoods();
@@ -51,18 +52,13 @@ const MoodForm: React.FC = () => {
           <h2>How would you describe your general feelings?</h2>
         </legend>
         {feelings.map((f) => (
-          <div key={f}>
-            <input
-              type="radio"
-              name="feeling"
-              id={f}
-              value={f}
-              required
-              checked={feeling === f}
-              onChange={(e) => setFeeling(e.target.value as Feeling)}
-            />
-            <label htmlFor={f}>{f}</label>
-          </div>
+          <InputRadioItem
+            key={f}
+            item={f}
+            name={"feeling"}
+            state={feeling}
+            onChange={(e) => setFeeling(e.target.value as Feeling)}
+          />
         ))}
       </fieldset>
       {/* End of Form Step 1 */}
@@ -73,18 +69,13 @@ const MoodForm: React.FC = () => {
           <h2>What emotion resonates the most with you?</h2>
         </legend>
         {emotions.map((e) => (
-          <div key={e}>
-            <input
-              type="radio"
-              name="emotion"
-              id={e}
-              value={e}
-              required
-              checked={emotion === e}
-              onChange={(e) => setEmotion(e.target.value as Emotion)}
-            />
-            <label htmlFor={e}>{e}</label>
-          </div>
+          <InputRadioItem
+            key={e}
+            item={e}
+            name={"emotion"}
+            state={emotion}
+            onChange={(e) => setEmotion(e.target.value as Emotion)}
+          />
         ))}
       </fieldset>
       {/* End of Form Step 2 */}
@@ -104,6 +95,8 @@ const MoodForm: React.FC = () => {
           className="w-full p-2 border rounded"
         ></textarea>
       </div>
+      {/* End of Form step 3 */}
+
       <button type="submit" className="">
         Save Mood
       </button>
