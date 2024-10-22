@@ -3,7 +3,7 @@ export interface Mood {
   _rev?: string; // Nécessaire pour la modification dans pouchDb. '?' car n'existe pas avant d'être enregistré dans PouchDB.
   createdAt: string;
   feeling: Feeling; // A changer en Feeling
-  emotion: string; // A changer en Emotion
+  emotion: Emotion; // A changer en Emotion
   note: string; // Note required pour l'instant
   // updatedAt?: string; // Date de la dernière modification. Uncomment si besoin.
 
@@ -20,4 +20,4 @@ export interface Mood {
 }
 
 export type Feeling = "agreable" | "disagreable" | "neutral";
-/* export type Emotion = "joy" | "sadness" | "anger" | "love" | "disgust" | "fear"; */
+export type Emotion = "joy" | "sadness" | "anger" | "love" | "disgust" | "fear";
