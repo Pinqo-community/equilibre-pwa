@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-input,
+input[type="text"],
 textarea {
   @apply border border-gray-300 rounded-md p-2 w-full;
 }
@@ -10,10 +10,13 @@ textarea {
 h1 {
   @apply text-2xl font-bold text-center;
 }
+h2 {
+  @apply font-bold text-xl;
+}
 form {
   @apply flex flex-col gap-4 max-w-md mx-auto;
 }
 
-button {
-  @apply bg-blue-800 text-white p-2 rounded-md;
+button[type="submit"] {
+  @apply bg-blue-900 text-white p-2 rounded-md w-full hover:bg-blue-600 transition-colors font-bold;
 }
