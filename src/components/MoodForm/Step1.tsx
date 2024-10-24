@@ -1,14 +1,14 @@
 import React from "react";
 import { Feeling } from "../../types/Mood";
 import InputRadioItem from "../reusable/InputRadioItem";
+import { feelings } from "../../constants/moodform";
 
 interface Step1Props {
   feeling: Feeling | undefined;
   setFeeling: (feeling: Feeling) => void;
 }
-const Step1: React.FC<Step1Props> = ({ feeling, setFeeling }) => {
-  const feelings: Feeling[] = ["agreable", "disagreable", "neutral"];
 
+const Step1: React.FC<Step1Props> = ({ feeling, setFeeling }) => {
   return (
     <fieldset>
       <legend>

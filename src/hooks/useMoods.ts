@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { Mood } from "../types/Mood";
-import db from "../db";
+import db from "../constants/db";
 
 // might need to create a usePouchDb hook as well/instead. not needed atm
 

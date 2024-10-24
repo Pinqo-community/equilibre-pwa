@@ -1,21 +1,13 @@
 import React from "react";
 import { Emotion } from "../../types/Mood";
 import InputRadioItem from "../reusable/InputRadioItem";
+import { emotions } from "../../constants/moodform";
 
 interface Step2Props {
   emotion: Emotion | undefined;
   setEmotion: (emotion: Emotion) => void;
 }
 const Step2: React.FC<Step2Props> = ({ setEmotion, emotion }) => {
-  const emotions: Emotion[] = [
-    "anger",
-    "disgust",
-    "fear",
-    "joy",
-    "love",
-    "sadness",
-  ];
-
   return (
     <fieldset>
       <legend>
