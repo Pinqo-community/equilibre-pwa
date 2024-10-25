@@ -4,7 +4,11 @@ export interface UserInfo {
   onBoardingCompleted: boolean;
   username: string;
   createdAt: string;
-  /* likedColor: "orange" | "rose" | "green" | "blue"; */
-  /* gender:string; */
-  /* companionType: "dog" | "cat" | "rodent"; */
+  favColor: FavColor;
+  gender: Gender;
+  friend: Friend;
 }
+
+export type Gender = "male" | "female" | "non-binary";
+export type Friend = "dog" | "cat" | "rodent";
+export type FavColor = "orange" | "rose" | "green" | "blue";
