@@ -9,3 +9,7 @@ export interface UserInfo {
   /* gender:string; */
   /* companionType: "dog" | "cat" | "rodent"; */
 }
+
+export type Gender = "male" | "female" | "non-binary";
+export type Friend = "dog" | "cat" | "rodent";
+export type FavColor = "orange" | "rose" | "green" | "blue";

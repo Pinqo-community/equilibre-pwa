@@ -1,10 +1,11 @@
 import { Emotion, Feeling } from "../../types/Mood";
+import { FavColor, Friend, Gender } from "../../types/UserInfo";
 
 interface InputRadioItemProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   item: string;
-  state: Feeling | Emotion | undefined;
-  name: "feeling" | "emotion";
+  state: Feeling | Emotion | Gender | Friend | FavColor | undefined;
+  name: "feeling" | "emotion" | "gender" | "friend" | "favColor";
 }
 const InputRadioItem: React.FC<InputRadioItemProps> = ({
   onChange,
