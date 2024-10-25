@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import db from "../../constants/dbConstants";
 import { FavColor, Friend, Gender } from "../../types/UserInfo";
 import InputRadioItem from "../reusable/InputRadioItem";
+import Step1 from "./Step1";
+import Step2 from "./Step2";
+import Step3 from "./Step3";
+import Step4 from "./Step4";
 
-interface OnboardingFormData {
+export interface OnboardingFormData {
   name: string;
   gender: Gender | undefined;
   favColor: FavColor | undefined;
@@ -13,15 +17,14 @@ interface OnboardingFormProps {
   setOnboardingCompleted: (completed: boolean) => void;
   onboardingCompleted: boolean;
 }
+export const genders: Gender[] = ["male", "female", "non-binary"];
+export const favColors: FavColor[] = ["orange", "rose", "green", "blue"];
+export const friends: Friend[] = ["dog", "cat", "rodent"];
 
 const OnboardingForm: React.FC<OnboardingFormProps> = ({
   setOnboardingCompleted,
   onboardingCompleted,
 }) => {
-  const genders: Gender[] = ["male", "female", "non-binary"];
-  const favColors: FavColor[] = ["orange", "rose", "green", "blue"];
-  const friends: Friend[] = ["dog", "cat", "rodent"];
-
   const [onboardingFormData, setOnboardingFormData] =
     useState<OnboardingFormData>({
       name: "",
@@ -43,92 +46,25 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
         </div>
       ) : (
         <form onSubmit={handleOnboardingSubmit}>
-          {/* Step1 */}
-          <div>
-            <label htmlFor="name">
-              <h2>Hello friend, how can I call you?</h2>
-            </label>
-            <input
-              required
-              type="text"
-              name="name"
-              id="name"
-              autoComplete="firstname"
-              value={onboardingFormData.name}
-              onChange={(e) =>
-                setOnboardingFormData({
-                  ...onboardingFormData,
-                  name: e.target.value,
-                })
-              }
-            />
-          </div>
-          {/* Step2 */}
+          <Step1
+            onboardingFormData={onboardingFormData}
+            setOnboardingFormData={setOnboardingFormData}
+          />
 
-          <fieldset>
-            <legend>
-              <h2>
-                Nice to meet you {onboardingFormData.name}! How do you identify?
-              </h2>
-            </legend>
-            {genders.map((gender) => (
-              <InputRadioItem
-                key={gender}
-                onChange={(e) =>
-                  setOnboardingFormData({
-                    ...onboardingFormData,
-                    gender: e.target.value as Gender,
-                  })
-                }
-                item={gender}
-                state={onboardingFormData.gender}
-                name="gender"
-              />
-            ))}
-          </fieldset>
+          <Step2
+            onboardingFormData={onboardingFormData}
+            setOnboardingFormData={setOnboardingFormData}
+          />
 
-          {/* orange rose green blue */}
-          {/* Step3 */}
-          <fieldset>
-            <legend>
-              <h2>Thank you! Which color do you prefer?</h2>
-            </legend>
-            {favColors.map((color) => (
-              <InputRadioItem
-                key={color}
-                onChange={(e) =>
-                  setOnboardingFormData({
-                    ...onboardingFormData,
-                    favColor: e.target.value as FavColor,
-                  })
-                }
-                item={color}
-                state={onboardingFormData.favColor}
-                name="favColor"
-              />
-            ))}
-          </fieldset>
+          <Step3
+            onboardingFormData={onboardingFormData}
+            setOnboardingFormData={setOnboardingFormData}
+          />
 
-          {/* Step4 */}
-          <fieldset>
-            <legend>
-              <h2>Well noted, select a friend for this journey:</h2>
-            </legend>
-            {friends.map((friend) => (
-              <InputRadioItem
-                key={friend}
-                onChange={(e) =>
-                  setOnboardingFormData({
-                    ...onboardingFormData,
-                    friend: e.target.value as Friend,
-                  })
-                }
-                item={friend}
-                state={onboardingFormData.friend}
-                name="friend"
-              />
-            ))}
-          </fieldset>
+          <Step4
+            onboardingFormData={onboardingFormData}
+            setOnboardingFormData={setOnboardingFormData}
+          />
 
           <button type="submit">Submit</button>
         </form>
