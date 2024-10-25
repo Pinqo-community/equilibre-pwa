@@ -1,84 +1,77 @@
-import { Mood } from "../../../MoodSelection/types";
-import { EncryptedData } from "./types";
+import { deriveKEK, generateDEK } from "./services/keyService";
+import {
+  encryptData,
+  decryptData,
+  wrapDEK,
+  unwrapDEK,
+} from "./tools/cryptoTools";
+import {
+  storeDEKInWorker,
+  getDEKFromWorker,
+} from "./services/webWorkerService";
 
-const MASTER_PASSWORD = "password";
+import db from "../../../db";
+import { CryptedDEK, CustomPouchError } from "./types";
 
-async function getKeyMaterial() {
-  const enc = new TextEncoder();
-  return await window.crypto.subtle.importKey(
-    "raw",
-    enc.encode(MASTER_PASSWORD),
-    "PBKDF2",
-    false,
-    ["deriveKey"]
-  );
+const iv = crypto.getRandomValues(new Uint8Array(12));
+
+export async function checkIfDEKExists(): Promise<boolean> {
+  const dek = await getDEKFromWorker();
+  return !dek ? false : true;
 }
 
-function generateIv() {
-  return crypto.getRandomValues(new Uint8Array(12));
+export async function initializeEncryption(password: string): Promise<void> {
+  try {
+    const dek = (await db.get("dek")) as CryptedDEK;
+    const kek = await deriveKEK(password, dek.salt);
+    const unwrapedDEK = await unwrapDEK(dek.encryptedDEK, kek, dek.iv);
+    await storeDEKInWorker(unwrapedDEK);
+  } catch (e) {
+    if ((e as CustomPouchError).status === 404) {
+      const salt = crypto.getRandomValues(new Uint8Array(16));
+      const dek = await generateDEK();
+      const kek = await deriveKEK(password, salt);
+      const wrappedDEK = await wrapDEK(dek, kek, iv);
+
+      await storeEncryptedDEKInDB({
+        encryptedDEK: wrappedDEK,
+        iv,
+        salt,
+      } as CryptedDEK);
+
+      await storeDEKInWorker(dek);
+    } else {
+      console.log(e);
+      throw new Error("Encryption error");
+    }
+  }
 }
 
-function serializeMood(data: Mood) {
-  return new TextEncoder().encode(JSON.stringify(data));
+async function storeEncryptedDEKInDB(dekEncrypted: CryptedDEK) {
+  await db.put({
+    _id: "dek",
+    encryptedDEK: dekEncrypted.encryptedDEK,
+    iv: dekEncrypted.iv,
+    salt: dekEncrypted.salt,
+  });
 }
 
-function parsingMood(data: any) {
-  return JSON.parse(new TextDecoder().decode(data));
-}
+export async function encryptUserData(data: string): Promise<string> {
+  const dek = await getDEKFromWorker();
 
-async function deriveKey(salt: Uint8Array) {
-  const keyMaterial = await getKeyMaterial();
-
-  return await window.crypto.subtle.deriveKey(
-    {
-      name: "PBKDF2",
-      salt,
-      iterations: 100000,
-      hash: "SHA-256",
-    },
-    keyMaterial,
-    {
-      name: "AES-GCM",
-      length: 256,
-    },
-    true,
-    ["encrypt", "decrypt"]
-  );
-}
-export async function encryptData(
-  data: Mood | undefined
-): Promise<EncryptedData> {
-  if (typeof data === "undefined") {
-    throw new Error("No data to encrypt");
+  if (!dek) {
+    throw new Error("DEK not available. Ask the user a password.");
   }
 
-  const dataToEncrypt = serializeMood(data);
-  const salt = crypto.getRandomValues(new Uint8Array(16));
-  const derivedKey = await deriveKey(salt);
-  const iv = generateIv();
-  const encryptedData = await window.crypto.subtle.encrypt(
-    { name: "AES-GCM", iv },
-    derivedKey,
-    dataToEncrypt
-  );
-
-  return { data: encryptedData, iv, salt };
+  return await encryptData(data, dek, iv);
 }
 
-export async function decryptData(
-  encryptedData: EncryptedData | undefined
-): Promise<string> {
-  if (!encryptedData || encryptedData === undefined) {
-    throw new Error("No data to decrypt");
+export async function decryptUserData(encryptedData: string): Promise<string> {
+  const dek = await getDEKFromWorker();
+
+  if (!dek) {
+    throw new Error("DEK not available. Ask the user a password.");
   }
 
-  const { data, iv, salt } = encryptedData;
-  const derivedKey = await deriveKey(salt);
-  const decryptedData = await window.crypto.subtle.decrypt(
-    { name: "AES-GCM", iv },
-    derivedKey,
-    data
-  );
-
-  return parsingMood(decryptedData);
+  return await decryptData(encryptedData, dek, iv);
 }
