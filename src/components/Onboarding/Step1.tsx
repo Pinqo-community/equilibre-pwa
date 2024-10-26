@@ -1,15 +1,13 @@
 import React from "react";
-import { OnboardingFormData } from "./OnboardingForm";
-
 interface Step1Props {
-  onboardingFormData: OnboardingFormData;
-  setOnboardingFormData: React.Dispatch<
-    React.SetStateAction<OnboardingFormData>
-  >;
+  username: string;
+  setUsername: (username: string) => void;
+  handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 const Step1: React.FC<Step1Props> = ({
-  onboardingFormData,
-  setOnboardingFormData,
+  username,
+  setUsername,
+  handleKeyDown,
 }) => {
   return (
     <div>
@@ -21,14 +19,10 @@ const Step1: React.FC<Step1Props> = ({
         type="text"
         name="name"
         id="name"
-        autoComplete="firstname"
-        value={onboardingFormData.name}
-        onChange={(e) =>
-          setOnboardingFormData({
-            ...onboardingFormData,
-            name: e.target.value,
-          })
-        }
+        autoComplete="name"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
     </div>
   );

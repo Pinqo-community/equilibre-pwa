@@ -1,33 +1,23 @@
 import React from "react";
-import { favColors, OnboardingFormData } from "./OnboardingForm";
 import InputRadioItem from "../reusable/InputRadioItem";
 import { FavColor } from "../../types/UserInfo";
+import { favColors } from "../../constants";
 interface Step3Props {
-  onboardingFormData: OnboardingFormData;
-  setOnboardingFormData: React.Dispatch<
-    React.SetStateAction<OnboardingFormData>
-  >;
+  favColor: FavColor | undefined;
+  setFavColor: (favColor: FavColor) => void;
 }
-const Step3: React.FC<Step3Props> = ({
-  onboardingFormData,
-  setOnboardingFormData,
-}) => {
+const Step3: React.FC<Step3Props> = ({ favColor, setFavColor }) => {
   return (
     <fieldset>
       <legend>
         <h2>Thank you! Which color do you prefer?</h2>
       </legend>
-      {favColors.map((color) => (
+      {favColors.map((c) => (
         <InputRadioItem
-          key={color}
-          onChange={(e) =>
-            setOnboardingFormData({
-              ...onboardingFormData,
-              favColor: e.target.value as FavColor,
-            })
-          }
-          item={color}
-          state={onboardingFormData.favColor}
+          key={c}
+          onChange={(e) => setFavColor(e.target.value as FavColor)}
+          item={c}
+          state={favColor}
           name="favColor"
         />
       ))}

@@ -1,34 +1,24 @@
 import React from "react";
-import { friends, OnboardingFormData } from "./OnboardingForm";
 import InputRadioItem from "../reusable/InputRadioItem";
 import { Friend } from "../../types/UserInfo";
+import { friends } from "../../constants";
 
 interface Step4Props {
-  onboardingFormData: OnboardingFormData;
-  setOnboardingFormData: React.Dispatch<
-    React.SetStateAction<OnboardingFormData>
-  >;
+  friend: Friend | undefined;
+  setFriend: (friend: Friend) => void;
 }
-const Step4: React.FC<Step4Props> = ({
-  onboardingFormData,
-  setOnboardingFormData,
-}) => {
+const Step4: React.FC<Step4Props> = ({ friend, setFriend }) => {
   return (
     <fieldset>
       <legend>
         <h2>Well noted, select a friend for this journey:</h2>
       </legend>
-      {friends.map((friend) => (
+      {friends.map((f) => (
         <InputRadioItem
-          key={friend}
-          onChange={(e) =>
-            setOnboardingFormData({
-              ...onboardingFormData,
-              friend: e.target.value as Friend,
-            })
-          }
-          item={friend}
-          state={onboardingFormData.friend}
+          key={f}
+          onChange={(e) => setFriend(e.target.value as Friend)}
+          item={f}
+          state={friend}
           name="friend"
         />
       ))}

@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
 import db from "../../constants/dbConstants";
 import { FavColor, Friend, Gender } from "../../types/UserInfo";
+=======
+import db from "../../db";
+import { FavColor, Friend, Gender, UserInfo } from "../../types/UserInfo";
+>>>>>>> 56094c1 (feature(onboarding): refactos, fixes and improvements.)
 
 import Step1 from "./Step1";
 import Step2 from "./Step2";
@@ -8,119 +13,111 @@ import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Success from "./Success";
 
-export interface OnboardingFormData {
-  name: string;
-  gender: Gender | undefined;
-  favColor: FavColor | undefined;
-  friend: Friend | undefined;
-}
 interface OnboardingFormProps {
   setOnboardingCompleted: (completed: boolean) => void;
-  onboardingCompleted: boolean;
 }
-export const genders: Gender[] = ["male", "female", "non-binary"];
-export const favColors: FavColor[] = ["orange", "rose", "green", "blue"];
-export const friends: Friend[] = ["dog", "cat", "rodent"];
 
 const OnboardingForm: React.FC<OnboardingFormProps> = ({
   setOnboardingCompleted,
 }) => {
-  const [onboardingFormData, setOnboardingFormData] =
-    useState<OnboardingFormData>({
-      name: "",
-      gender: undefined,
-      favColor: undefined,
-      friend: undefined,
-    });
+  const [username, setUsername] = useState("");
+  const [gender, setGender] = useState<Gender | undefined>(undefined);
+  const [favColor, setFavColor] = useState<FavColor | undefined>(undefined);
+  const [friend, setFriend] = useState<Friend | undefined>(undefined);
   const maxFormSteps = 5;
   const [onboardingFormStep, setOnboardingFormStep] = useState(1);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleNextStep = () => {
-    if (onboardingFormStep === 1 && !onboardingFormData.name) {
+    if (onboardingFormStep === 1 && username.trim() === "") {
       setErrorMessage("Please enter your name");
       return;
     }
-    if (onboardingFormStep === 2 && !onboardingFormData.gender) {
+    if (onboardingFormStep === 2 && !gender) {
       setErrorMessage("Please select your gender");
       return;
     }
-    if (onboardingFormStep == 3 && !onboardingFormData.favColor) {
+    if (onboardingFormStep == 3 && !favColor) {
       setErrorMessage("Please select your favorite color");
       return;
     }
-    if (onboardingFormStep === 4 && !onboardingFormData.friend) {
+    if (onboardingFormStep === 4 && !friend) {
       setErrorMessage("Please select your friend");
       return;
-    } else {
-      setErrorMessage(null);
-      if (onboardingFormStep < maxFormSteps)
-        setOnboardingFormStep(onboardingFormStep + 1);
+    }
+    setErrorMessage(null);
+    if (onboardingFormStep < maxFormSteps)
+      setOnboardingFormStep(onboardingFormStep + 1);
+  };
+
+  /* So the user can't submit the form pressing enter in the first step :)))) */
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleNextStep();
     }
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      handleNextStep(); // Manually move to the next step instead
-    }
-  };
   const handleOnboardingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await db.put({ ...onboardingFormData, _id: "onboarding" });
-      setOnboardingFormStep(maxFormSteps);
-    } catch (err) {
-      console.error("error saving onboarding: ", err);
+    console.log("submitted");
+    setLoading(true);
+    if (username && favColor && gender && friend) {
+      const user: UserInfo = {
+        createdAt: new Date().toISOString(),
+        _id: "onboarding",
+        username: username,
+        favColor: favColor!,
+        gender: gender!,
+        friend: friend!,
+        onBoardingCompleted: true,
+      };
+      try {
+        await db.put(user);
+        setOnboardingFormStep(maxFormSteps);
+        setLoading(false);
+        console.log("new user", user);
+      } catch (err) {
+        console.error("error saving onboarding: ", err);
+        setLoading(false);
+      }
     }
   };
   return (
     <>
-      <form onSubmit={handleOnboardingSubmit} onKeyDown={handleKeyDown}>
+      <form onSubmit={handleOnboardingSubmit}>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
         {onboardingFormStep === 1 && (
           <Step1
-            onboardingFormData={onboardingFormData}
-            setOnboardingFormData={setOnboardingFormData}
+            username={username}
+            setUsername={setUsername}
+            handleKeyDown={handleKeyDown}
           />
         )}
 
         {onboardingFormStep === 2 && (
-          <Step2
-            onboardingFormData={onboardingFormData}
-            setOnboardingFormData={setOnboardingFormData}
-          />
+          <Step2 username={username} gender={gender} setGender={setGender} />
         )}
 
         {onboardingFormStep === 3 && (
-          <Step3
-            onboardingFormData={onboardingFormData}
-            setOnboardingFormData={setOnboardingFormData}
-          />
+          <Step3 favColor={favColor} setFavColor={setFavColor} />
         )}
 
         {onboardingFormStep === 4 && (
-          <Step4
-            onboardingFormData={onboardingFormData}
-            setOnboardingFormData={setOnboardingFormData}
-          />
+          <Step4 friend={friend} setFriend={setFriend} />
         )}
 
-        {onboardingFormStep === maxFormSteps && (
-          <Success setOnboardingCompleted={setOnboardingCompleted} />
-        )}
+        {onboardingFormStep === maxFormSteps && <Success />}
         <div
           className={`flex gap-4 min-w-full ${onboardingFormStep === 1 ? "justify-end" : "justify-between"}`}
         >
-          {onboardingFormStep > 1 && (
+          {onboardingFormStep > 1 && onboardingFormStep < maxFormSteps && (
             <button
               className="border border-black p-2 rounded-md"
               type="button"
-              onClick={() =>
-                onboardingFormStep > 1 &&
-                setOnboardingFormStep(onboardingFormStep - 1)
-              }
+              onClick={() => setOnboardingFormStep(onboardingFormStep - 1)}
             >
               Prev
             </button>
@@ -135,7 +132,18 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
             </button>
           )}
           {onboardingFormStep === maxFormSteps - 1 && (
-            <button type="submit">Save informations</button>
+            <button type="submit" disabled={loading}>
+              Save informations
+            </button>
+          )}
+          {onboardingFormStep === maxFormSteps && (
+            <button
+              onClick={() => setOnboardingCompleted(true)}
+              className="flex-1 p-4 bg-black text-white font-bold"
+              type="button"
+            >
+              Start your journey
+            </button>
           )}
         </div>
       </form>
