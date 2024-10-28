@@ -1,7 +1,7 @@
 import React from "react";
 import { Feeling } from "../../types/Mood";
 import InputRadioItem from "../reusable/InputRadioItem";
-import { feelings } from "../../constants/moodform";
+import { feelings } from "../../constants/moodConstants";
 
 interface Step1Props {
   feeling: Feeling | undefined;

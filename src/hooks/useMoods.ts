@@ -1,16 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { Mood } from "../types/Mood";
-import db from "../constants/db";
+import db from "../constants/dbConstants";
 
 // might need to create a usePouchDb hook as well/instead. not needed atm
 
 const useMoods = () => {
   const [moods, setMoods] = useState<Mood[]>([]);
   // manage loading state
-  useEffect(() => {
+
+  /* useEffect(() => {
     fetchMoods();
-  }, []);
+  }, []); */
 
   const addMood = async (mood: Mood): Promise<Mood | undefined> => {
     try {

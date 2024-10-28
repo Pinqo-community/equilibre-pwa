@@ -1,10 +1,10 @@
 import useMoods from "../../hooks/useMoods";
 import { Emotion, Feeling, Mood } from "../../types/Mood";
 import { useState } from "react";
-import Step1 from "./Step1";
-import Step2 from "./Step2";
-import Step3 from "./Step3";
-import Success from "./Success";
+import Step1 from "./Step1feeling";
+import Step2 from "./Step2emotion";
+import Step3 from "./Step3note";
+import Success from "./MoodFormSuccess";
 
 const MoodForm: React.FC = () => {
   const { addMood } = useMoods();

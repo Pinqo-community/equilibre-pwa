@@ -1,7 +1,7 @@
 import { Emotion, Feeling } from "../../types/Mood";
 
 interface InputRadioItemProps {
-  onChange: (e: any) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   item: string;
   state: Feeling | Emotion | undefined;
   name: "feeling" | "emotion";
