@@ -15,23 +15,27 @@ import { CryptedDEK, CustomPouchError } from "./types";
 
 const iv = crypto.getRandomValues(new Uint8Array(12));
 
-export async function checkIfDEKExists(): Promise<boolean> {
+export async function isDEKExists(): Promise<boolean> {
   const dek = await getDEKFromWorker();
-  return !dek ? false : true;
+  return Boolean(dek);
 }
 
 export async function initializeEncryption(password: string): Promise<void> {
   try {
-    const dek = (await db.get("dek")) as CryptedDEK;
-    const kek = await deriveKEK(password, dek.salt);
-    const unwrapedDEK = await unwrapDEK(dek.encryptedDEK, kek, dek.iv);
+    const dek: CryptedDEK = await getEncryptedDEKFromDB();
+    const kek: CryptoKey = await deriveKEK(password, dek.salt);
+    const unwrapedDEK: CryptoKey = await unwrapDEK(
+      dek.encryptedDEK,
+      kek,
+      dek.iv,
+    );
     await storeDEKInWorker(unwrapedDEK);
   } catch (e) {
     if ((e as CustomPouchError).status === 404) {
-      const salt = crypto.getRandomValues(new Uint8Array(16));
-      const dek = await generateDEK();
-      const kek = await deriveKEK(password, salt);
-      const wrappedDEK = await wrapDEK(dek, kek, iv);
+      const salt: Uint8Array = crypto.getRandomValues(new Uint8Array(16));
+      const dek: CryptoKey = await generateDEK();
+      const kek: CryptoKey = await deriveKEK(password, salt);
+      const wrappedDEK: string = await wrapDEK(dek, kek, iv);
 
       await storeEncryptedDEKInDB({
         encryptedDEK: wrappedDEK,
@@ -45,6 +49,10 @@ export async function initializeEncryption(password: string): Promise<void> {
       throw new Error("Encryption error");
     }
   }
+}
+
+async function getEncryptedDEKFromDB(): Promise<CryptedDEK> {
+  return (await db.get("dek")) as CryptedDEK;
 }
 
 async function storeEncryptedDEKInDB(dekEncrypted: CryptedDEK) {

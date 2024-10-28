@@ -2,7 +2,7 @@ import PWABadge from "./pwa/PWABadge.tsx";
 import MoodForm from "./components/MoodForm/MoodForm.tsx";
 
 import {
-  checkIfDEKExists,
+  isDEKExists,
   decryptUserData,
   encryptUserData,
   initializeEncryption,
@@ -11,7 +11,7 @@ import {
 async function test() {
   try {
     //alert("test");
-    if (!(await checkIfDEKExists())) {
+    if (!(await isDEKExists())) {
       const password =
         prompt("Entrez votre mot de passe pour sécuriser vos données :") ||
         "test";
