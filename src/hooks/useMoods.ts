@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Mood } from "../types/Mood";
 import db from "../constants/dbConstants";
+import { UserInfo } from "../types/UserInfo";
 
 // might need to create a usePouchDb hook as well/instead. not needed atm
 
@@ -30,16 +31,24 @@ const useMoods = () => {
     try {
       // descending? : trie les notes dans l'ordre descendant si voulu
       /* Pour fetch un certain nombre de moods (par exemple 5), possibilité d'ajouter limit:5 */
-      const allMoods = await db.allDocs({
+
+      /* Sera isolé dans son propre hook useDb() */
+      /* Temporaire, cf. pouchdb-find */
+      const allDocsResults = await db.allDocs({
         include_docs: true,
         descending: true,
       });
-      const fetchedMoods = allMoods.rows.map((row) => row.doc) as Mood[];
-      setMoods(fetchedMoods);
+      const allDocs = allDocsResults.rows.map((row) => row.doc);
+      const moods = filterMoodDocs(allDocs as (Mood | UserInfo)[]);
+      setMoods(moods);
     } catch (err) {
       console.error("Error fetching moods from PouchDB: ", err);
       setMoods([]);
     }
+  };
+
+  const filterMoodDocs = (docs: (Mood | UserInfo)[]): Mood[] => {
+    return docs.filter((doc) => doc.type === "mood");
   };
 
   const updateMood = async (mood: Mood): Promise<Mood | undefined> => {

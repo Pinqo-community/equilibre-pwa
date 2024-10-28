@@ -25,6 +25,7 @@ const MoodForm: React.FC = () => {
       createdAt: newDate,
       feeling: feeling!,
       emotion: emotion!,
+      type: "mood",
       note,
     };
 
