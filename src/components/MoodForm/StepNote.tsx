@@ -1,10 +1,10 @@
 import React from "react";
 
-interface Step3Props {
+interface StepNoteProps {
   note: string;
   setNote: (note: string) => void;
 }
-const Step3: React.FC<Step3Props> = ({ note, setNote }) => {
+const StepNote: React.FC<StepNoteProps> = ({ note, setNote }) => {
   return (
     <div className="form-group">
       <label htmlFor="note" className="block mb-1">
@@ -24,4 +24,4 @@ const Step3: React.FC<Step3Props> = ({ note, setNote }) => {
   );
 };
 
-export default Step3;
+export default StepNote;

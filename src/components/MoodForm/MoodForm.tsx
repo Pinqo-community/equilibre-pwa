@@ -1,10 +1,10 @@
 import useMoods from "../../hooks/useMoods";
 import { Emotion, Feeling, Mood } from "../../types/Mood";
 import { useState } from "react";
-import Step1 from "./Step1feeling";
-import Step2 from "./Step2emotion";
-import Step3 from "./Step3note";
 import Success from "./MoodFormSuccess";
+import StepFeeling from "./StepFeeling";
+import StepEmotion from "./StepEmotion";
+import StepNote from "./StepNote";
 
 const MoodForm: React.FC = () => {
   const { addMood } = useMoods();
@@ -78,14 +78,14 @@ const MoodForm: React.FC = () => {
           )}
 
           {formStep === 1 && (
-            <Step1 setFeeling={setFeeling} feeling={feeling} />
+            <StepFeeling setFeeling={setFeeling} feeling={feeling} />
           )}
 
           {formStep === 2 && (
-            <Step2 setEmotion={setEmotion} emotion={emotion} />
+            <StepEmotion setEmotion={setEmotion} emotion={emotion} />
           )}
 
-          {formStep === 3 && <Step3 setNote={setNote} note={note} />}
+          {formStep === 3 && <StepNote setNote={setNote} note={note} />}
 
           <div
             className={`flex gap-4 min-w-full ${formStep === 1 ? "justify-end" : "justify-between"}`}

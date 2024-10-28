@@ -3,11 +3,11 @@ import { Emotion } from "../../types/Mood";
 import InputRadioItem from "../reusable/InputRadioItem";
 import { emotions } from "../../constants/moodConstants";
 
-interface Step2Props {
+interface StepEmotionProps {
   emotion: Emotion | undefined;
   setEmotion: (emotion: Emotion) => void;
 }
-const Step2: React.FC<Step2Props> = ({ setEmotion, emotion }) => {
+const StepEmotion: React.FC<StepEmotionProps> = ({ setEmotion, emotion }) => {
   return (
     <fieldset>
       <legend>
@@ -26,4 +26,4 @@ const Step2: React.FC<Step2Props> = ({ setEmotion, emotion }) => {
   );
 };
 
-export default Step2;
+export default StepEmotion;
