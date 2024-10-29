@@ -1,4 +1,4 @@
-import db from "../db";
+import db from "../constants/dbConstants";
 
 export const deleteDbFromDevice = async () => {
   try {

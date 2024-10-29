@@ -4,6 +4,7 @@ export interface Mood {
   createdAt: string;
   feeling: Feeling;
   emotion: Emotion;
+  type: "mood";
   note: string; // Note required pour l'instant
   // updatedAt?: string; // Date de la dernière modification. Uncomment si besoin.
 

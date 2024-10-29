@@ -11,12 +11,16 @@ h1 {
   @apply text-2xl font-bold text-center;
 }
 h2 {
-  @apply font-bold text-xl;
+  @apply text-5xl text-pretty font-medium;
 }
 form {
-  @apply flex flex-col gap-4 max-w-md mx-auto;
+  @apply flex flex-col gap-4 max-w-md mx-auto text-xl;
 }
 
 button[type="submit"] {
-  @apply bg-blue-900 text-white p-2 rounded-md w-full hover:bg-blue-600 transition-colors font-bold;
+  @apply bg-blue-900 text-white p-2 rounded-md w-full hover:bg-blue-600 transition-colors font-bold flex-1;
+}
+
+button[type="button"] {
+  @apply bg-slate-200 text-black p-2 rounded-md hover:bg-slate-900 hover:text-white font-bold transition-colors;
 }
