@@ -3,11 +3,11 @@ import InputRadioItem from "../reusable/InputRadioItem";
 import { Friend } from "../../types/UserInfo";
 import { friends } from "../../constants";
 
-interface Step4Props {
+interface StepFriendProps {
   friend: Friend | undefined;
   setFriend: (friend: Friend) => void;
 }
-const Step4: React.FC<Step4Props> = ({ friend, setFriend }) => {
+const StepFriend: React.FC<StepFriendProps> = ({ friend, setFriend }) => {
   return (
     <fieldset>
       <legend>
@@ -26,4 +26,4 @@ const Step4: React.FC<Step4Props> = ({ friend, setFriend }) => {
   );
 };
 
-export default Step4;
+export default StepFriend;

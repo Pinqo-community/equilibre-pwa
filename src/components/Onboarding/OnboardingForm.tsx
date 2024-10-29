@@ -1,17 +1,12 @@
 import React, { useState } from "react";
-<<<<<<< HEAD
 import db from "../../constants/dbConstants";
-import { FavColor, Friend, Gender } from "../../types/UserInfo";
-=======
-import db from "../../db";
 import { FavColor, Friend, Gender, UserInfo } from "../../types/UserInfo";
->>>>>>> 56094c1 (feature(onboarding): refactos, fixes and improvements.)
 
-import Step1 from "./Step1";
-import Step2 from "./Step2";
-import Step3 from "./Step3";
-import Step4 from "./Step4";
-import Success from "./Success";
+import OnboardingSuccess from "./OnboardingSuccess";
+import StepFavColor from "./StepFavColor";
+import StepFriend from "./StepFriend";
+import StepGender from "./StepGender";
+import StepUsername from "./StepName";
 
 interface OnboardingFormProps {
   setOnboardingCompleted: (completed: boolean) => void;
@@ -68,9 +63,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
         createdAt: new Date().toISOString(),
         _id: "onboarding",
         username: username,
-        favColor: favColor!,
-        gender: gender!,
-        friend: friend!,
+        type: "onboarding",
         onBoardingCompleted: true,
       };
       try {
@@ -90,7 +83,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
         {onboardingFormStep === 1 && (
-          <Step1
+          <StepUsername
             username={username}
             setUsername={setUsername}
             handleKeyDown={handleKeyDown}
@@ -98,18 +91,22 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
         )}
 
         {onboardingFormStep === 2 && (
-          <Step2 username={username} gender={gender} setGender={setGender} />
+          <StepGender
+            username={username}
+            gender={gender}
+            setGender={setGender}
+          />
         )}
 
         {onboardingFormStep === 3 && (
-          <Step3 favColor={favColor} setFavColor={setFavColor} />
+          <StepFavColor favColor={favColor} setFavColor={setFavColor} />
         )}
 
         {onboardingFormStep === 4 && (
-          <Step4 friend={friend} setFriend={setFriend} />
+          <StepFriend friend={friend} setFriend={setFriend} />
         )}
 
-        {onboardingFormStep === maxFormSteps && <Success />}
+        {onboardingFormStep === maxFormSteps && <OnboardingSuccess />}
         <div
           className={`flex gap-4 min-w-full ${onboardingFormStep === 1 ? "justify-end" : "justify-between"}`}
         >

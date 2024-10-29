@@ -1,10 +1,10 @@
 import React from "react";
-interface Step1Props {
+interface StepUsernameProps {
   username: string;
   setUsername: (username: string) => void;
   handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
-const Step1: React.FC<Step1Props> = ({
+const StepUsername: React.FC<StepUsernameProps> = ({
   username,
   setUsername,
   handleKeyDown,
@@ -28,4 +28,4 @@ const Step1: React.FC<Step1Props> = ({
   );
 };
 
-export default Step1;
+export default StepUsername;

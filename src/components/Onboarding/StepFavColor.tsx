@@ -2,11 +2,14 @@ import React from "react";
 import InputRadioItem from "../reusable/InputRadioItem";
 import { FavColor } from "../../types/UserInfo";
 import { favColors } from "../../constants";
-interface Step3Props {
+interface StepFavColorProps {
   favColor: FavColor | undefined;
   setFavColor: (favColor: FavColor) => void;
 }
-const Step3: React.FC<Step3Props> = ({ favColor, setFavColor }) => {
+const StepFavColor: React.FC<StepFavColorProps> = ({
+  favColor,
+  setFavColor,
+}) => {
   return (
     <fieldset>
       <legend>
@@ -25,4 +28,4 @@ const Step3: React.FC<Step3Props> = ({ favColor, setFavColor }) => {
   );
 };
 
-export default Step3;
+export default StepFavColor;

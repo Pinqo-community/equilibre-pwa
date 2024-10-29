@@ -1,6 +1,6 @@
 import React from "react";
 
-const Success: React.FC = () => {
+const OnboardingSuccess: React.FC = () => {
   return (
     <div>
       <h2>Congratulations! You&apos;ve completed the onboarding process.</h2>
@@ -8,4 +8,4 @@ const Success: React.FC = () => {
   );
 };
 
-export default Success;
+export default OnboardingSuccess;

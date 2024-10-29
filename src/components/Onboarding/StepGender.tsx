@@ -3,12 +3,16 @@ import { Gender } from "../../types/UserInfo";
 import InputRadioItem from "../reusable/InputRadioItem";
 import { genders } from "../../constants";
 
-interface Step2Props {
+interface StepGenderProps {
   username: string;
   gender: Gender | undefined;
   setGender: (gender: Gender) => void;
 }
-const Step2: React.FC<Step2Props> = ({ username, gender, setGender }) => {
+const StepGender: React.FC<StepGenderProps> = ({
+  username,
+  gender,
+  setGender,
+}) => {
   return (
     <fieldset>
       <legend>
@@ -27,4 +31,4 @@ const Step2: React.FC<Step2Props> = ({ username, gender, setGender }) => {
   );
 };
 
-export default Step2;
+export default StepGender;
