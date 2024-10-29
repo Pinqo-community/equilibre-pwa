@@ -10,9 +10,9 @@ import {
   getDEKFromWorker,
 } from "./services/webWorkerService";
 
-import db from "../../../db";
-import { CryptedDEK, CustomPouchError } from "./types";
-
+import db from "../../../constants/dbConstants";
+import { CryptedDEK } from "../../../types/Encryption";
+import { CustomPouchError } from "../../../types/PouchDB";
 const iv = crypto.getRandomValues(new Uint8Array(12));
 
 export async function isDEKExists(): Promise<boolean> {
