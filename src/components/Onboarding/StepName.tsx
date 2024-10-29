@@ -1,14 +1,24 @@
 import React from "react";
+
 interface StepUsernameProps {
   username: string;
   setUsername: (username: string) => void;
-  handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleNextStep: () => void;
 }
+
 const StepUsername: React.FC<StepUsernameProps> = ({
   username,
   setUsername,
-  handleKeyDown,
+  handleNextStep,
 }) => {
+  /* So the user can't submit the form pressing enter in the first step :)))) */
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleNextStep();
+    }
+  };
+
   return (
     <div>
       <label htmlFor="name">
@@ -21,7 +31,7 @@ const StepUsername: React.FC<StepUsernameProps> = ({
         id="name"
         autoComplete="name"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={(e) => setUsername(e.target.value.trim())}
         onKeyDown={handleKeyDown}
       />
     </div>

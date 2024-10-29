@@ -1,9 +1,15 @@
 import React from "react";
 
-const OnboardingSuccess: React.FC = () => {
+interface OnboardingSuccessProps {
+  username: string;
+}
+const OnboardingSuccess: React.FC<OnboardingSuccessProps> = ({ username }) => {
   return (
     <div>
-      <h2>Congratulations! You&apos;ve completed the onboarding process.</h2>
+      <h2>
+        Congratulations <span className="text-red-400 font-bold">{username}</span>!
+        You&apos;ve completed the onboarding process.
+      </h2>
     </div>
   );
 };

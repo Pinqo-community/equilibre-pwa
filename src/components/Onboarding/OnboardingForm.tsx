@@ -25,7 +25,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
   const [loading, setLoading] = useState(false);
 
   const handleNextStep = () => {
-    if (onboardingFormStep === 1 && username.trim() === "") {
+    if (onboardingFormStep === 1 && !username.trim()) {
       setErrorMessage("Please enter your name");
       return;
     }
@@ -46,14 +46,6 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
       setOnboardingFormStep(onboardingFormStep + 1);
   };
 
-  /* So the user can't submit the form pressing enter in the first step :)))) */
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      handleNextStep();
-    }
-  };
-
   const handleOnboardingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("submitted");
@@ -62,7 +54,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
       const user: UserInfo = {
         createdAt: new Date().toISOString(),
         _id: "onboarding",
-        username: username,
+        username,
         type: "onboarding",
         onBoardingCompleted: true,
       };
@@ -86,7 +78,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
           <StepUsername
             username={username}
             setUsername={setUsername}
-            handleKeyDown={handleKeyDown}
+            handleNextStep={handleNextStep}
           />
         )}
 
@@ -106,7 +98,10 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
           <StepFriend friend={friend} setFriend={setFriend} />
         )}
 
-        {onboardingFormStep === maxFormSteps && <OnboardingSuccess />}
+        {onboardingFormStep === maxFormSteps && (
+          <OnboardingSuccess username={username} />
+        )}
+
         <div
           className={`flex gap-4 min-w-full ${onboardingFormStep === 1 ? "justify-end" : "justify-between"}`}
         >
