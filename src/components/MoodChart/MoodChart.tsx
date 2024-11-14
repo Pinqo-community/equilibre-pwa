@@ -19,11 +19,8 @@ const MoodChart: React.FC = () => {
       className="h-auto mx-auto"
     >
       <ResponsiveContainer width="100%" height={300}>
-        <AreaChart
-          data={data}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-        >
-          <XAxis dataKey="name" />
+        <AreaChart data={data}>
+          <XAxis dataKey="name" padding={{ left: 10, right: 10 }} />
           <Tooltip formatter={(value) => [FeelingLevel[value as number]]} />
           <Area
             type="monotone"
