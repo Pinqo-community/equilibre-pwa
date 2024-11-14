@@ -1,12 +1,8 @@
 import { useEffect } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import useMoods from "../../hooks/useMoods";
-
-enum FeelingLevel {
-  disagreable = 1,
-  neutral = 2,
-  agreable = 3,
-}
+import { FeelingLevel } from "../../types/Mood";
+import { transformMoodsToChartData } from "../../utils/dataTransformers";
 
 const MoodChart: React.FC = () => {
   const { moods, fetchMoods } = useMoods();
@@ -15,12 +11,7 @@ const MoodChart: React.FC = () => {
     fetchMoods();
   }, [fetchMoods]);
 
-  const data = moods.map((mood) => ({
-    name: new Date(mood.createdAt).toLocaleDateString("fr-FR", {
-      weekday: "short",
-    }),
-    mood: FeelingLevel[mood.feeling],
-  }));
+  const data = transformMoodsToChartData(moods);
 
   return (
     <div

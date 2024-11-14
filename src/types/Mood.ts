@@ -22,3 +22,9 @@ export interface Mood {
 
 export type Feeling = "agreable" | "disagreable" | "neutral";
 export type Emotion = "joy" | "sadness" | "anger" | "love" | "disgust" | "fear";
+
+export enum FeelingLevel {
+  disagreable = 1,
+  neutral = 2,
+  agreable = 3,
+}
