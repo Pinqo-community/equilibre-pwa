@@ -1,5 +1,6 @@
 import PWABadge from "./pwa/PWABadge.tsx";
 import MoodForm from "./components/MoodForm/MoodForm.tsx";
+import EncryptionDemo from "./components/EncryptionDemo.tsx";
 
 // import {
 //   isDEKExists,
@@ -40,6 +41,7 @@ function App() {
       <h1>Equilibre</h1>
 
       <main className="p-4">
+        <EncryptionDemo />
         <MoodForm />
       </main>
 
