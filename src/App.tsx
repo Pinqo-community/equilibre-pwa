@@ -1,38 +1,38 @@
 import PWABadge from "./pwa/PWABadge.tsx";
 import MoodForm from "./components/MoodForm/MoodForm.tsx";
 
-import {
-  isDEKExists,
-  decryptUserData,
-  encryptUserData,
-  initializeEncryption,
-} from "./common/utils/encryption/encryptionServices.ts";
+// import {
+//   isDEKExists,
+//   decryptUserData,
+//   encryptUserData,
+//   initializeEncryption,
+// } from "./common/utils/encryption/encryptionServices.ts";
 
-async function test() {
-  try {
-    //alert("test");
-    if (!(await isDEKExists())) {
-      const password =
-        prompt("Entrez votre mot de passe pour sécuriser vos données :") ||
-        "test";
+// async function test() {
+//   try {
+//     //alert("test");
+//     if (!(await isDEKExists())) {
+//       const password =
+//         prompt("Entrez votre mot de passe pour sécuriser vos données :") ||
+//         "test";
 
-      console.log("password", password);
+//       console.log("password", password);
 
-      await initializeEncryption(password);
+//       await initializeEncryption(password);
 
-      const userData = "données sensibles";
-      const encrypted = await encryptUserData(userData);
-      console.log("Données chiffrées:", encrypted);
+//       const userData = "données sensibles";
+//       const encrypted = await encryptUserData(userData);
+//       console.log("Données chiffrées:", encrypted);
 
-      const decrypted = await decryptUserData(encrypted);
-      console.log("Données déchiffrées:", decrypted);
-    }
-  } catch (e) {
-    console.error(e);
-  }
-}
+//       const decrypted = await decryptUserData(encrypted);
+//       console.log("Données déchiffrées:", decrypted);
+//     }
+//   } catch (e) {
+//     console.error(e);
+//   }
+// }
 
-await test();
+// await test();
 
 function App() {
   return (
