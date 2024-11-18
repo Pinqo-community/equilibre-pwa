@@ -34,6 +34,7 @@ This free application is designed to help users track their mental health and ac
 ### Prerequisites
 
 - Node.js and pnpm installed on your machine
+- Node version : v20.13.1
 
 ### Installation
 
