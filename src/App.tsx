@@ -10,7 +10,6 @@ function App() {
       <main className="p-4">
         <MoodForm />
         <MoodChart />
-        <MoodChart />
       </main>
 
       <PWABadge />
