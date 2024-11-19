@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import "./NavigationLink.css";
+import "./navigationLink.css";
 
 interface NavigationLinkProps {
   page: string;
