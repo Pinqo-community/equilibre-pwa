@@ -2,6 +2,7 @@ import { useState } from "react";
 import usePouchDb from "../hooks/usePouchDb";
 import { Mood } from "../types/Mood";
 import { UserInfo } from "../types/UserInfo";
+import { filterMoodDocs } from "../utils/dataTransformers";
 
 const useMoods = () => {
   const [moods, setMoods] = useState<Mood[]>([]);
@@ -28,10 +29,6 @@ const useMoods = () => {
       console.error("Error fetching moods from PouchDB: ", err);
       setMoods([]);
     }
-  };
-
-  const filterMoodDocs = (docs: (Mood | UserInfo)[]): Mood[] => {
-    return docs.filter((doc) => doc.type === "mood");
   };
 
   const updateMood = async (mood: Mood): Promise<Mood | undefined> => {
