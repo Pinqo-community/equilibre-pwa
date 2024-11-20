@@ -6,7 +6,8 @@ import { filterMoodDocs } from "../utils/dataTransformers";
 
 const useMoods = () => {
   const [moods, setMoods] = useState<Mood[]>([]);
-  const { addDoc, fetchDocs, updateDoc, deleteDoc } = usePouchDb<Mood>();
+  const { addDoc, fetchDocs, updateDoc, deleteDoc, loading } =
+    usePouchDb<Mood>();
 
   const addMood = async (mood: Mood): Promise<Mood | undefined> => {
     try {
@@ -20,11 +21,12 @@ const useMoods = () => {
     }
   };
 
-  const fetchMoods = async (): Promise<void> => {
+  const fetchMoods = async (): Promise<Mood[] | undefined> => {
     try {
       const allDocs = await fetchDocs({ descending: true });
       const moods = filterMoodDocs(allDocs as (Mood | UserInfo)[]);
       setMoods(moods);
+      return moods;
     } catch (err) {
       console.error("Error fetching moods from PouchDB: ", err);
       setMoods([]);
@@ -59,6 +61,7 @@ const useMoods = () => {
     fetchMoods,
     updateMood,
     deleteMood,
+    loading,
   };
 };
 
