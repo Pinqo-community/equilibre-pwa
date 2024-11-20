@@ -12,7 +12,7 @@ dist
 dist-ssr
 dev-dist
 *.local
-
+routeTree.gen.ts
 package-lock.json
 
 # Editor directories and files
