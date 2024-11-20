@@ -9,13 +9,9 @@ export const transformMoodsToChartData = (moods: Mood[]) => {
   }));
 };
 
-export const filterMoodDocs = (docs: unknown[]): Mood[] => {
-  return docs.filter((doc): doc is Mood => {
-    return (
-      typeof doc === "object" &&
-      doc !== null &&
-      "type" in doc &&
-      doc.type === "mood"
-    );
-  });
+export const filterDocsByType = <T extends { type: string }>(
+  docs: T[],
+  type: string,
+): T[] => {
+  return docs.filter((doc) => doc.type === type);
 };

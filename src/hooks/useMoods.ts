@@ -1,8 +1,7 @@
 import { useState } from "react";
 import usePouchDb from "../hooks/usePouchDb";
 import { Mood } from "../types/Mood";
-import { UserInfo } from "../types/UserInfo";
-import { filterMoodDocs } from "../utils/dataTransformers";
+import { filterDocsByType } from "../utils/dataTransformers";
 
 const useMoods = () => {
   const [moods, setMoods] = useState<Mood[]>([]);
@@ -24,7 +23,7 @@ const useMoods = () => {
   const fetchMoods = async (): Promise<Mood[] | undefined> => {
     try {
       const allDocs = await fetchDocs({ descending: true });
-      const moods = filterMoodDocs(allDocs as (Mood | UserInfo)[]);
+      const moods = filterDocsByType(allDocs, "mood");
       setMoods(moods);
       return moods;
     } catch (err) {
