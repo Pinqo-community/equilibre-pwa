@@ -1,8 +1,5 @@
 import { StrictMode } from "react";
-import MoodChart from "./components/MoodChart/MoodChart.tsx";
-import MoodForm from "./components/MoodForm/MoodForm.tsx";
-import PWABadge from "./pwa/PWABadge.tsx";
-import EncryptionDemo from "./components/EncryptionDemo.tsx";
+
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen.ts";
 
