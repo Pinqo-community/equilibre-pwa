@@ -10,13 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.59.13",
+    "@tanstack/react-router": "^1.65.0",
     "events": "^3.3.0",
     "pouchdb": "^9.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "recharts": "^2.13.3",
-    "@tanstack/react-query": "^5.59.13",
-    "@tanstack/react-router": "^1.65.0"
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.59.7",
