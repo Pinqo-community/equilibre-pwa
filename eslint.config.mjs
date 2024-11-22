@@ -35,12 +35,14 @@ export default [
     rules: {
       "react/no-unescaped-entities": "off",
       "react/prop-types": "off",
+      "no-console": "error",
     },
   },
 
   {
     files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
       parser: typescriptParser,
       parserOptions: {
         project: "./tsconfig.json",
