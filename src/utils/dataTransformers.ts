@@ -8,3 +8,10 @@ export const transformMoodsToChartData = (moods: Mood[]) => {
     mood: FeelingLevel[mood.feeling],
   }));
 };
+
+export const filterDocsByType = <T extends { type: string }>(
+  docs: T[],
+  type: string,
+): T[] => {
+  return docs.filter((doc) => doc.type === type);
+};
