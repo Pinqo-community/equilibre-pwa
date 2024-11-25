@@ -14,6 +14,7 @@ dev-dist
 *.local
 routeTree.gen.ts
 package-lock.json
+equilibre_db
 
 # Editor directories and files
 .vscode/*
