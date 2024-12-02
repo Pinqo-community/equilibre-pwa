@@ -8,7 +8,9 @@ type PouchDbDocument = {
 };
 
 // Define the usePouchdb Hook with a generic type T that extends PouchDbDocument
-const usePouchDb = <T extends PouchDbDocument>() => {
+const usePouchDb = <T extends PouchDbDocument>(
+  dbInstance: PouchDB.Database = db,
+) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -20,7 +22,10 @@ const usePouchDb = <T extends PouchDbDocument>() => {
   const fetchDocs = async (options = {}): Promise<T[]> => {
     try {
       setLoading(true);
-      const allDocs = await db.allDocs({ include_docs: true, ...options });
+      const allDocs = await dbInstance.allDocs({
+        include_docs: true,
+        ...options,
+      });
       return allDocs.rows.map((row) => row.doc as T);
     } catch (err) {
       setError(err as Error);
@@ -37,7 +42,7 @@ const usePouchDb = <T extends PouchDbDocument>() => {
    */
   const addDoc = async (doc: T): Promise<T> => {
     try {
-      const result = await db.put({ ...doc });
+      const result = await dbInstance.put({ ...doc });
       return { ...doc, _rev: result.rev };
     } catch (err) {
       setError(err as Error);
@@ -52,7 +57,7 @@ const usePouchDb = <T extends PouchDbDocument>() => {
    */
   const updateDoc = async (doc: T): Promise<T> => {
     try {
-      const existingDoc = await db.get(doc._id);
+      const existingDoc = await dbInstance.get(doc._id);
       const result = await db.put({ ...existingDoc, ...doc });
       return { ...doc, _rev: result.rev };
     } catch (err) {
@@ -67,8 +72,8 @@ const usePouchDb = <T extends PouchDbDocument>() => {
    */
   const deleteDoc = async (id: string): Promise<void> => {
     try {
-      const existingDoc = await db.get(id);
-      await db.remove(existingDoc);
+      const existingDoc = await dbInstance.get(id);
+      await dbInstance.remove(existingDoc);
     } catch (err) {
       setError(err as Error);
       throw err;
