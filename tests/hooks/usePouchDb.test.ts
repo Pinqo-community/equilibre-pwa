@@ -77,12 +77,9 @@ describe("usePouchDb", () => {
     const documentToAdd = { _id: "3", name: "Bob" };
     const { result } = renderHook(() => usePouchDb<TestDocument>(myPouch));
 
-    let addedDoc: TestDocument = { _id: "3", name: "Bob" };
-
     await act(async () => {
-      addedDoc = await result.current.addDoc(documentToAdd);
+      let addedDoc = await result.current.addDoc(documentToAdd);
+      expect(addedDoc).toEqual(expect.objectContaining(documentToAdd));
     });
-
-    expect(addedDoc).toEqual(expect.objectContaining(documentToAdd));
   });
 });

@@ -58,7 +58,7 @@ const usePouchDb = <T extends PouchDbDocument>(
   const updateDoc = async (doc: T): Promise<T> => {
     try {
       const existingDoc = await dbInstance.get(doc._id);
-      const result = await db.put({ ...existingDoc, ...doc });
+      const result = await dbInstance.put({ ...existingDoc, ...doc });
       return { ...doc, _rev: result.rev };
     } catch (err) {
       setError(err as Error);
