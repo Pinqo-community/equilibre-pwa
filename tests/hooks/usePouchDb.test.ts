@@ -59,19 +59,30 @@ describe("usePouchDb", () => {
     );
   });
 
-  it("should update loading state correctly", async () => {
+  it("should update loading state correctly in fetchDocs function", async () => {
     const { result } = renderHook(() => usePouchDb<TestDocument>(myPouch));
 
     act(() => {
       result.current.fetchDocs();
     });
 
-    // Vérifier que loading passe à true
     expect(result.current.loading).toBe(true);
 
-    // Attendre que loading revienne à false
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
     });
+  });
+
+  it("should add a document to the database", async () => {
+    const documentToAdd = { _id: "3", name: "Bob" };
+    const { result } = renderHook(() => usePouchDb<TestDocument>(myPouch));
+
+    let addedDoc: TestDocument = { _id: "3", name: "Bob" };
+
+    await act(async () => {
+      addedDoc = await result.current.addDoc(documentToAdd);
+    });
+
+    expect(addedDoc).toEqual(expect.objectContaining(documentToAdd));
   });
 });
