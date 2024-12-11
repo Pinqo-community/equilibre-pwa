@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
 import PouchDB from "pouchdb";
 import memory from "pouchdb-adapter-memory";
-import { afterEach, beforeEach, describe } from "vitest";
+import { afterEach, beforeEach, describe, vi } from "vitest";
 
 import usePouchDb from "../../src/hooks/usePouchDb";
 
@@ -78,8 +78,86 @@ describe("usePouchDb", () => {
     const { result } = renderHook(() => usePouchDb<TestDocument>(myPouch));
 
     await act(async () => {
-      let addedDoc = await result.current.addDoc(documentToAdd);
+      const addedDoc = await result.current.addDoc(documentToAdd);
       expect(addedDoc).toEqual(expect.objectContaining(documentToAdd));
     });
+  });
+
+  it("should update a document in the database and return the new rev", async () => {
+    const initialDoc = { _id: "1", name: "John Doe" } as TestDocument;
+    await myPouch.put(initialDoc);
+
+    const { result } = renderHook(() => usePouchDb<TestDocument>(myPouch));
+
+    const updatedData = { _id: initialDoc._id, name: "John Doe Jr." };
+
+    await act(async () => {
+      const updatedDoc = await result.current.updateDoc(updatedData);
+
+      expect(updatedDoc._id).toBe(updatedData._id);
+      expect(updatedDoc.name).toBe(updatedData.name);
+      expect(updatedDoc._rev).not.toBe(initialDoc._rev);
+    });
+  });
+
+  it("should delete a document from the database", async () => {
+    const initialDoc = { _id: "1", name: "John Doe" };
+    await myPouch.put(initialDoc);
+
+    const { result } = renderHook(() => usePouchDb<TestDocument>(myPouch));
+
+    await act(async () => {
+      await result.current.deleteDoc(initialDoc._id);
+    });
+
+    expect(myPouch.get(initialDoc._id)).rejects.toThrow();
+  });
+
+  it("should handle error if fetchDocs fails", async () => {
+    vi.spyOn(myPouch, "allDocs").mockRejectedValue(new Error("Test error"));
+
+    const { result } = renderHook(() => usePouchDb<TestDocument>(myPouch));
+
+    await act(async () => {
+      try {
+        await result.current.fetchDocs();
+      } catch (error) {}
+    });
+
+    expect(result.current.error).toBeInstanceOf(Error);
+    expect(result.current.error?.message).toBe("Test error");
+  });
+
+  it("should handle error if addDoc fails", async () => {
+    vi.spyOn(myPouch, "put").mockRejectedValue(new Error("Test error"));
+
+    const { result } = renderHook(() => usePouchDb<TestDocument>(myPouch));
+
+    await act(async () => {
+      try {
+        await result.current.addDoc({ _id: "3", name: "Bob" });
+      } catch (error) {}
+    });
+
+    expect(result.current.error).toBeInstanceOf(Error);
+    expect(result.current.error?.message).toBe("Test error");
+  });
+
+  it("should handle error if updateDoc fails", async () => {
+    const initialDoc = { _id: "1", name: "John Doe" } as TestDocument;
+    await myPouch.put(initialDoc);
+
+    vi.spyOn(myPouch, "put").mockRejectedValue(new Error("Test error"));
+
+    const { result } = renderHook(() => usePouchDb<TestDocument>(myPouch));
+
+    await act(async () => {
+      try {
+        await result.current.updateDoc(initialDoc);
+      } catch (error) {}
+    });
+
+    expect(result.current.error).toBeInstanceOf(Error);
+    expect(result.current.error?.message).toBe("Test error");
   });
 });
