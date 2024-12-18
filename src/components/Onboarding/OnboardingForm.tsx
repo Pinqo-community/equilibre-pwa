@@ -1,12 +1,13 @@
+import { Link } from "@tanstack/react-router";
 import React, { useState } from "react";
 import db from "../../constants/dbConstants";
 import { FavColor, Friend, Gender, UserInfo } from "../../types/UserInfo";
-
 import OnboardingSuccess from "./OnboardingSuccess";
 import StepFavColor from "./StepFavColor";
 import StepFriend from "./StepFriend";
 import StepGender from "./StepGender";
 import StepUsername from "./StepName";
+import StepSplash from "./StepSplash";
 
 interface OnboardingFormProps {
   setOnboardingCompleted: (completed: boolean) => void;
@@ -19,25 +20,25 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
   const [gender, setGender] = useState<Gender | undefined>(undefined);
   const [favColor, setFavColor] = useState<FavColor | undefined>(undefined);
   const [friend, setFriend] = useState<Friend | undefined>(undefined);
-  const maxFormSteps = 5;
+  const maxFormSteps = 6;
   const [onboardingFormStep, setOnboardingFormStep] = useState(1);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleNextStep = () => {
-    if (onboardingFormStep === 1 && !username.trim()) {
+    if (onboardingFormStep === 2 && !username.trim()) {
       setErrorMessage("Please enter your name");
       return;
     }
-    if (onboardingFormStep === 2 && !gender) {
+    if (onboardingFormStep === 3 && !gender) {
       setErrorMessage("Please select your gender");
       return;
     }
-    if (onboardingFormStep == 3 && !favColor) {
+    if (onboardingFormStep == 4 && !favColor) {
       setErrorMessage("Please select your favorite color");
       return;
     }
-    if (onboardingFormStep === 4 && !friend) {
+    if (onboardingFormStep === 5 && !friend) {
       setErrorMessage("Please select your friend");
       return;
     }
@@ -74,7 +75,9 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
       <form onSubmit={handleOnboardingSubmit}>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
-        {onboardingFormStep === 1 && (
+        {onboardingFormStep === 1 && <StepSplash />}
+
+        {onboardingFormStep === 2 && (
           <StepUsername
             username={username}
             setUsername={setUsername}
@@ -82,7 +85,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
           />
         )}
 
-        {onboardingFormStep === 2 && (
+        {onboardingFormStep === 3 && (
           <StepGender
             username={username}
             gender={gender}
@@ -90,11 +93,11 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
           />
         )}
 
-        {onboardingFormStep === 3 && (
+        {onboardingFormStep === 4 && (
           <StepFavColor favColor={favColor} setFavColor={setFavColor} />
         )}
 
-        {onboardingFormStep === 4 && (
+        {onboardingFormStep === 5 && (
           <StepFriend friend={friend} setFriend={setFriend} />
         )}
 
@@ -129,13 +132,13 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
             </button>
           )}
           {onboardingFormStep === maxFormSteps && (
-            <button
+            <Link
+              to={"/mood"}
               onClick={() => setOnboardingCompleted(true)}
-              className="flex-1 p-4 bg-black text-white font-bold"
-              type="button"
+              className="bg-slate-200 text-black p-2 rounded-md hover:bg-slate-900 hover:text-white font-bold transition-colors"
             >
               Start your journey
-            </button>
+            </Link>
           )}
         </div>
       </form>

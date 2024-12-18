@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 // import MoodChart from "../components/MoodChart/MoodChart";
-import OnboardingTest from "../components/OnboardingDemo";
+import OnboardingForm from "../components/Onboarding/OnboardingForm";
 
 export const Route = createLazyFileRoute("/")({
   component: Index,
@@ -9,10 +9,9 @@ export const Route = createLazyFileRoute("/")({
 function Index() {
   return (
     <div>
-      <h1>Home Page</h1>
       {/* <MoodChart /> */}
       <div className="flex justify-center items-center mt-44">
-        <OnboardingTest />
+        <OnboardingForm setOnboardingCompleted={() => null} />
       </div>
     </div>
   );
