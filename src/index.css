@@ -1,6 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    @apply font-sans;
+  }
+  h1 {
+    @apply text-6xl font-medium text-white;
+  }
+  h2 {
+    @apply text-4xl font-medium text-white;
+  }
+  h3 {
+    @apply text-2xl font-medium text-white;
+  }
+}
+@layer utilities {
+  .clip-wave {
+    clip-path: ellipse(70% 50% at 50% 30%);
+  }
+
+  .form-limited {
+    @apply max-w-md;
+  }
+}
 
 input[type="text"],
 textarea {
@@ -14,7 +40,7 @@ h2 {
   @apply text-5xl text-pretty font-medium;
 }
 form {
-  @apply flex flex-col gap-4 max-w-md mx-auto text-xl;
+  @apply flex flex-col gap-4 mx-auto text-xl;
 }
 
 button[type="submit"] {

@@ -8,9 +8,9 @@ export const Route = createLazyFileRoute("/")({
 
 function Index() {
   return (
-    <div>
+    <div className="w-full h-screen">
       {/* <MoodChart /> */}
-      <div className="flex justify-center items-center mt-44">
+      <div className=" h-full flex justify-center items-center">
         <OnboardingForm setOnboardingCompleted={() => null} />
       </div>
     </div>

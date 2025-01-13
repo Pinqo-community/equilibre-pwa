@@ -72,10 +72,15 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
   };
   return (
     <>
-      <form onSubmit={handleOnboardingSubmit}>
+      <form
+        onSubmit={handleOnboardingSubmit}
+        className="w-full h-full flex flex-col"
+      >
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
-        {onboardingFormStep === 1 && <StepSplash />}
+        {onboardingFormStep === 1 && (
+          <StepSplash handleNextStep={handleNextStep} />
+        )}
 
         {onboardingFormStep === 2 && (
           <StepUsername
@@ -117,7 +122,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
               Prev
             </button>
           )}
-          {onboardingFormStep < maxFormSteps - 1 && (
+          {onboardingFormStep < maxFormSteps - 1 && onboardingFormStep > 1 && (
             <button
               onClick={handleNextStep}
               type="button"
