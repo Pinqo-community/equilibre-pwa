@@ -28,7 +28,6 @@
   }
 }
 
-input[type="text"],
 textarea {
   @apply border border-gray-300 rounded-md p-2 w-full;
 }
@@ -45,8 +44,4 @@ form {
 
 button[type="submit"] {
   @apply bg-blue-900 text-white p-2 rounded-md w-full hover:bg-blue-600 transition-colors font-bold flex-1;
-}
-
-button[type="button"] {
-  @apply bg-slate-200 text-black p-2 rounded-md hover:bg-slate-900 hover:text-white font-bold transition-colors;
 }

@@ -21,7 +21,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
   const [favColor, setFavColor] = useState<FavColor | undefined>(undefined);
   const [friend, setFriend] = useState<Friend | undefined>(undefined);
   const maxFormSteps = 6;
-  const [onboardingFormStep, setOnboardingFormStep] = useState(1);
+  const [onboardingFormStep, setOnboardingFormStep] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -78,11 +78,11 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
       >
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
-        {onboardingFormStep === 1 && (
+        {onboardingFormStep === 0 && (
           <StepSplash handleNextStep={handleNextStep} />
         )}
 
-        {onboardingFormStep === 2 && (
+        {onboardingFormStep === 1 && (
           <StepUsername
             username={username}
             setUsername={setUsername}
@@ -90,7 +90,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
           />
         )}
 
-        {onboardingFormStep === 3 && (
+        {onboardingFormStep === 2 && (
           <StepGender
             username={username}
             gender={gender}
@@ -98,11 +98,11 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
           />
         )}
 
-        {onboardingFormStep === 4 && (
+        {onboardingFormStep === 3 && (
           <StepFavColor favColor={favColor} setFavColor={setFavColor} />
         )}
 
-        {onboardingFormStep === 5 && (
+        {onboardingFormStep === 4 && (
           <StepFriend friend={friend} setFriend={setFriend} />
         )}
 
@@ -111,7 +111,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
         )}
 
         <div
-          className={`flex gap-4 min-w-full ${onboardingFormStep === 1 ? "justify-end" : "justify-between"}`}
+          className={`flex gap-4 min-w-full ${onboardingFormStep === 1 ? "justify-end" : "justify-between"} mb-8 pr-8`}
         >
           {onboardingFormStep > 1 && onboardingFormStep < maxFormSteps && (
             <button
@@ -122,11 +122,11 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
               Prev
             </button>
           )}
-          {onboardingFormStep < maxFormSteps - 1 && onboardingFormStep > 1 && (
+          {onboardingFormStep < maxFormSteps - 1 && onboardingFormStep >= 1 && (
             <button
               onClick={handleNextStep}
               type="button"
-              className="bg-black text-white rounded-md p-2"
+              className="bg-[#2563EB] text-white px-6 py-2 rounded-xl shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)]"
             >
               Next
             </button>
