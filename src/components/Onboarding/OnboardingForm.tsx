@@ -9,6 +9,8 @@ import StepFriend from "./StepFriend";
 import StepGender from "./StepGender";
 import StepUsername from "./StepName";
 import StepSplash from "./StepSplash";
+import { useUserStore } from "../../store/userStore";
+
 interface OnboardingFormProps {
   setOnboardingCompleted: (completed: boolean) => void;
 }
@@ -42,6 +44,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
     ONBOARDING_STEPS[0].id,
   );
   const { addDoc } = usePouchDb();
+  const { setUserData } = useUserStore();
 
   const setUserAttribute = <K extends keyof UserInfo>(
     attribute: K,
@@ -107,6 +110,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
       };
       console.log(userToSave);
       await addDoc(userToSave);
+      setUserData({ onboardingCompleted: true });
       setCurrentStepId("SUCCESS");
       setLoading(false);
     } catch (error) {
