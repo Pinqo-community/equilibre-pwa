@@ -5,9 +5,9 @@ export interface UserInfo {
   username: string;
   createdAt: string;
   type: "onboarding";
-  /* likedColor: "orange" | "rose" | "green" | "blue"; */
-  /* gender:string; */
-  /* companionType: "dog" | "cat" | "rodent"; */
+  gender: Gender | undefined;
+  favColor: FavColor | undefined;
+  friend: Friend | undefined;
 }
 
 export type Gender = "male" | "female" | "non-binary";

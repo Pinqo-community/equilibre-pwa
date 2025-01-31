@@ -1,28 +1,29 @@
 import React from "react";
+import { genders } from "../../constants";
 import { Gender } from "../../types/UserInfo";
 import InputRadioItem from "../reusable/InputRadioItem";
-import { genders } from "../../constants";
 
 interface StepGenderProps {
-  username: string;
-  gender: Gender | undefined;
-  setGender: (gender: Gender) => void;
+  gender?: Gender;
+  setGender: (value: Gender) => void;
 }
-const StepGender: React.FC<StepGenderProps> = ({
-  username,
-  gender,
-  setGender,
-}) => {
+
+const StepGender: React.FC<StepGenderProps> = ({ gender, setGender }) => {
+  const handleGenderChange = (selectedGender: Gender) => {
+    console.log(selectedGender);
+    setGender(selectedGender);
+  };
+
   return (
     <fieldset>
       <legend>
-        <h2>Nice to meet you {username}! How do you identify?</h2>
+        <h2>How do you identify?</h2>
       </legend>
-      {genders.map((g) => (
+      {genders.map((genderOption) => (
         <InputRadioItem
-          key={g}
-          onChange={(e) => setGender(e.target.value as Gender)}
-          item={g}
+          key={genderOption}
+          onChange={() => handleGenderChange(genderOption)}
+          item={genderOption}
           state={gender}
           name="gender"
         />
