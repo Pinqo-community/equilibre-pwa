@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import React, { useState } from "react";
 import usePouchDb from "../../hooks/usePouchDb";
+import { useUserStore } from "../../store/userStore";
 import { FavColor, Friend, Gender, UserInfo } from "../../types/UserInfo";
 import OnboardingConfirm from "./OnboardingConfirm";
 import OnboardingSuccess from "./OnboardingSuccess";
@@ -9,7 +10,6 @@ import StepFriend from "./StepFriend";
 import StepGender from "./StepGender";
 import StepUsername from "./StepName";
 import StepSplash from "./StepSplash";
-import { useUserStore } from "../../store/userStore";
 
 interface OnboardingFormProps {
   setOnboardingCompleted: (completed: boolean) => void;
@@ -166,9 +166,9 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
         {currentStepId == "SUCCESS" && (
           <OnboardingSuccess username={user.username} />
         )}
-        <div>
+        <div className="flex gap-4 justify-center p-8">
           {currentStepId != "SPLASH" && currentStepId != "SUCCESS" && (
-            <div className="flex gap-4 justify-between mb-8 pr-8">
+            <div className="flex w-full justify-around">
               <button type="button" onClick={handlePrevStep}>
                 Prev
               </button>
@@ -181,7 +181,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
             <Link
               to={"/mood"}
               onClick={() => setOnboardingCompleted(true)}
-              className="bg-slate-200 text-black p-2 rounded-md hover:bg-slate-900 hover:text-white font-bold transition-colors"
+              className="p-4 bg-[#2563EB] rounded-2xl text-white font-bold shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)]"
             >
               {loading ? "Loading..." : "Start your journey"}
             </Link>

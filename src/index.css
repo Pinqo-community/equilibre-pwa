@@ -41,7 +41,3 @@ h2 {
 form {
   @apply flex flex-col gap-4 mx-auto text-xl;
 }
-
-button[type="submit"] {
-  @apply bg-blue-900 text-white p-2 rounded-md w-full hover:bg-blue-600 transition-colors font-bold flex-1;
-}
