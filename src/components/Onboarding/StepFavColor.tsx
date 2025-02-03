@@ -6,14 +6,19 @@ import InputRadioItem from "../reusable/InputRadioItem";
 interface StepFavColorProps {
   favColor?: FavColor;
   setFavColor: (favColor: FavColor) => void;
+  errorMessage: string | null;
+  setErrorMessage: (errorMessage: string | null) => void;
 }
 
 const StepFavColor: React.FC<StepFavColorProps> = ({
   favColor,
   setFavColor,
+  errorMessage,
+  setErrorMessage,
 }) => {
   const handleFavColorChange = (selectedColor: FavColor) => {
     setFavColor(selectedColor);
+    setErrorMessage(null);
   };
 
   return (
@@ -25,7 +30,7 @@ const StepFavColor: React.FC<StepFavColorProps> = ({
             Thank you! Which color do you prefer?
           </h3>
         </div>
-        <div className="min-h-40 flex p-8 flex-col">
+        <div className="min-h-40 flex p-8 flex-col ">
           <fieldset>
             <legend className="text-lg mb-4">Select your favorite color</legend>
             {favColors.map((color) => (
@@ -35,10 +40,17 @@ const StepFavColor: React.FC<StepFavColorProps> = ({
                 item={color}
                 state={favColor}
                 name="favColor"
+                aria-describedby="color-error"
               />
             ))}
           </fieldset>
         </div>
+        <span
+          id="color-error"
+          className="text-red-500 absolute bottom-20 left-8"
+        >
+          {errorMessage}
+        </span>
       </div>
     </div>
   );

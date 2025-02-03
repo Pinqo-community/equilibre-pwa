@@ -6,11 +6,19 @@ import InputRadioItem from "../reusable/InputRadioItem";
 interface StepFriendProps {
   friend?: Friend;
   setFriend: (friend: Friend) => void;
+  errorMessage: string | null;
+  setErrorMessage: (errorMessage: string | null) => void;
 }
 
-const StepFriend: React.FC<StepFriendProps> = ({ friend, setFriend }) => {
+const StepFriend: React.FC<StepFriendProps> = ({
+  friend,
+  setFriend,
+  errorMessage,
+  setErrorMessage,
+}) => {
   const handleSetFriend = (selectedFriend: Friend) => {
     setFriend(selectedFriend);
+    setErrorMessage(null);
   };
 
   return (
@@ -32,10 +40,17 @@ const StepFriend: React.FC<StepFriendProps> = ({ friend, setFriend }) => {
                 item={friendItem}
                 state={friend}
                 name="friend"
+                aria-describedby="friend-error"
               />
             ))}
           </fieldset>
         </div>
+        <span
+          id="friend-error"
+          className="text-red-500 absolute bottom-20 left-8"
+        >
+          {errorMessage}
+        </span>
       </div>
     </div>
   );

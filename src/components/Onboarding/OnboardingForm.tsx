@@ -125,23 +125,26 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
         className="w-full h-full"
         noValidate
       >
-        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {currentStepId == "SPLASH" && (
           <StepSplash handleNextStep={handleNextStep} />
         )}
         {currentStepId == "USERNAME" && (
           <StepUsername
             handleNextStep={handleNextStep}
+            errorMessage={errorMessage}
             username={user.username}
             setUsername={(username: string) =>
               setUserAttribute("username", username)
             }
+            setErrorMessage={setErrorMessage}
           />
         )}
         {currentStepId == "GENDER" && (
           <StepGender
             gender={user.gender}
             setGender={(gender: Gender) => setUserAttribute("gender", gender)}
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
           />
         )}
         {currentStepId == "FAVCOLOR" && (
@@ -150,6 +153,8 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
             setFavColor={(favColor: FavColor) =>
               setUserAttribute("favColor", favColor)
             }
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
           />
         )}
         {currentStepId == "FRIEND" && (
@@ -158,6 +163,8 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
             setFriend={(friend: Friend) => {
               setUserAttribute("friend", friend);
             }}
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
           />
         )}
         {currentStepId == "CONFIRM" && (

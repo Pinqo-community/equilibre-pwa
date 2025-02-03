@@ -6,12 +6,19 @@ import InputRadioItem from "../reusable/InputRadioItem";
 interface StepGenderProps {
   gender?: Gender;
   setGender: (value: Gender) => void;
+  errorMessage: string | null;
+  setErrorMessage: (errorMessage: string | null) => void;
 }
 
-const StepGender: React.FC<StepGenderProps> = ({ gender, setGender }) => {
+const StepGender: React.FC<StepGenderProps> = ({
+  gender,
+  setGender,
+  errorMessage,
+  setErrorMessage,
+}) => {
   const handleGenderChange = (selectedGender: Gender) => {
-    console.log(selectedGender);
     setGender(selectedGender);
+    setErrorMessage(null);
   };
 
   return (
@@ -23,7 +30,7 @@ const StepGender: React.FC<StepGenderProps> = ({ gender, setGender }) => {
         </div>
         <div className="min-h-40 flex p-8 flex-col">
           <fieldset>
-            <legend className="text-lg mb-4">Select your gender</legend>
+            <legend className="text-lg mb-4 ">Select your gender</legend>
             {genders.map((genderOption) => (
               <InputRadioItem
                 key={genderOption}
@@ -31,11 +38,18 @@ const StepGender: React.FC<StepGenderProps> = ({ gender, setGender }) => {
                 item={genderOption}
                 state={gender}
                 name="gender"
+                aria-describedby="gender-error"
               />
             ))}
           </fieldset>
         </div>
       </div>
+      <span
+        id="gender-error"
+        className="text-red-500 absolute bottom-20 left-8"
+      >
+        {errorMessage}
+      </span>
     </div>
   );
 };

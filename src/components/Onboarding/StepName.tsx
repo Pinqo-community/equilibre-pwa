@@ -4,12 +4,16 @@ interface StepUsernameProps {
   username: string;
   setUsername: (username: string) => void;
   handleNextStep: () => void;
+  errorMessage: string | null;
+  setErrorMessage: (errorMessage: string | null) => void;
 }
 
 const StepUsername: React.FC<StepUsernameProps> = ({
   username,
   setUsername,
   handleNextStep,
+  errorMessage,
+  setErrorMessage,
 }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -20,6 +24,7 @@ const StepUsername: React.FC<StepUsernameProps> = ({
 
   const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
+    setErrorMessage(null);
   };
 
   return (
@@ -41,13 +46,20 @@ const StepUsername: React.FC<StepUsernameProps> = ({
             type="text"
             name="name"
             id="name"
-            autoComplete="name"
+            autoComplete="given-name"
             value={username}
             onChange={handleUserNameChange}
             onKeyDown={handleKeyDown}
             className="border-b-4 border-[#2563EB] pt-7 pb-2 focus:outline-none mb-11"
+            aria-describedby="firstname-error"
           />
         </div>
+        <span
+          id="firstname-error"
+          className="text-red-500 absolute bottom-20 left-8"
+        >
+          {errorMessage}
+        </span>
       </div>
     </div>
   );
