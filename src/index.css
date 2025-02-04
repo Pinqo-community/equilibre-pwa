@@ -1,12 +1,22 @@
-@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap")
+layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@utility clip-wave {
+  clip-path: ellipse(70% 50% at 50% 30%);
+}
+@utility form-limited {
+  @apply max-w-md;
+}
+
+@theme {
+  --font-cabin: "Cabin", sans-serif;
+}
 
 @layer base {
   html {
-    @apply font-sans;
+    @apply font-cabin;
   }
   h1 {
     @apply text-6xl font-medium text-white;
@@ -18,26 +28,10 @@
     @apply text-2xl font-medium text-white;
   }
 }
-@layer utilities {
-  .clip-wave {
-    clip-path: ellipse(70% 50% at 50% 30%);
-  }
-
-  .form-limited {
-    @apply max-w-md;
-  }
-}
 
 textarea {
   @apply border border-gray-300 rounded-md p-2 w-full;
 }
-
-h1 {
-  @apply text-2xl font-bold text-center;
-}
-h2 {
-  @apply text-5xl text-pretty font-medium;
-}
 form {
-  @apply flex flex-col gap-4 mx-auto text-xl;
+  @apply flex flex-col gap-4 mx-auto;
 }

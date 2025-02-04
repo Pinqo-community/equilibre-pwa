@@ -50,7 +50,7 @@ const StepUsername: React.FC<StepUsernameProps> = ({
             value={username}
             onChange={handleUserNameChange}
             onKeyDown={handleKeyDown}
-            className="border-b-4 border-[#2563EB] pt-7 pb-2 focus:outline-none mb-11"
+            className="border-b-4 border-[#2563EB] pt-7 pb-2 focus:outline-hidden mb-11"
             aria-describedby="firstname-error"
           />
         </div>
