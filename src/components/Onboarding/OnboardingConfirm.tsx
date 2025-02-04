@@ -18,7 +18,7 @@ const StepConfirm: React.FC<{
           <button
             type="submit"
             onClick={handleOnboardingSubmit}
-            className="py-2 px-4 bg-[#2563EB] text-white rounded"
+            className="py-2 px-4 bg-[#2563EB] text-white rounded-sm"
           >
             Confirm and Continue
           </button>

@@ -17,7 +17,7 @@ const StepNote: React.FC<StepNoteProps> = ({ note, setNote }) => {
         required
         placeholder="It was sunny today... I went swimming!"
         onChange={(e) => setNote(e.target.value)}
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded-sm"
         rows={10}
       ></textarea>
     </div>
