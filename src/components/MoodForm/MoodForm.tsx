@@ -93,16 +93,6 @@ const MoodForm: React.FC = () => {
     }
   };
 
-  const handleNewMood = () => {
-    setMood({
-      feeling: undefined,
-      emotion: undefined,
-      note: "",
-      currentStepId: MOOD_STEPS[0].id,
-      errorMessage: null,
-    });
-  };
-
   return (
     <form onSubmit={handleFormSubmission} className="w-full h-full" noValidate>
       {mood.currentStepId === "FEELING" && (
@@ -141,9 +131,7 @@ const MoodForm: React.FC = () => {
           }
         />
       )}
-      {mood.currentStepId === "SUCCESS" && (
-        <Success handleNewMood={handleNewMood} />
-      )}
+      {mood.currentStepId === "SUCCESS" && <Success />}
       <div className="flex gap-4 justify-center p-8">
         {mood.currentStepId !== "SUCCESS" && (
           <div className="flex w-full justify-around">

@@ -22,7 +22,7 @@ const StepNote: React.FC<StepNoteProps> = ({
     <div className="flex flex-col flex-1">
       <div className="flex flex-col flex-1">
         <div className="bg-[#2563EB] flex-1 p-8">
-          <h2 className="mt-8 text-xl">Step 3 on 4</h2>
+          <h2 className="mt-8 text-xl">Step 3 on 3</h2>
           <h3 className="text-3xl text-white mt-20">
             Would you like to add any notes?
           </h3>
@@ -35,6 +35,7 @@ const StepNote: React.FC<StepNoteProps> = ({
               onChange={handleNoteChange}
               aria-describedby="note-error"
               className="border-2 border-gray-300 p-2 w-full"
+              rows={8}
             />
           </fieldset>
         </div>
