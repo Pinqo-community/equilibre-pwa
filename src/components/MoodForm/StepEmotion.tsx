@@ -1,28 +1,74 @@
 import React from "react";
 import { Emotion } from "../../types/Mood";
-import InputRadioItem from "../reusable/InputRadioItem";
-import { emotions } from "../../constants/moodConstants";
 
 interface StepEmotionProps {
   emotion: Emotion | undefined;
   setEmotion: (emotion: Emotion) => void;
+  errorMessage: string | null;
+  setErrorMessage: (errorMessage: string | null) => void;
 }
-const StepEmotion: React.FC<StepEmotionProps> = ({ setEmotion, emotion }) => {
+
+const StepEmotion: React.FC<StepEmotionProps> = ({
+  emotion,
+  setEmotion,
+  errorMessage,
+  setErrorMessage,
+}) => {
+  const handleEmotionChange = (selectedEmotion: Emotion) => {
+    setEmotion(selectedEmotion);
+    setErrorMessage(null);
+  };
+
+  const emotions: Emotion[] = [
+    "joy",
+    "sadness",
+    "anger",
+    "love",
+    "disgust",
+    "fear",
+  ];
+
   return (
-    <fieldset>
-      <legend>
-        <h2>What emotion resonates the most with you?</h2>
-      </legend>
-      {emotions.map((e) => (
-        <InputRadioItem
-          key={e}
-          item={e}
-          name={"emotion"}
-          state={emotion}
-          onChange={(e) => setEmotion(e.target.value as Emotion)}
-        />
-      ))}
-    </fieldset>
+    <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1">
+        <div className="bg-[#2563EB] flex-1 p-8">
+          <h2 className="mt-8 text-xl">Step 2 on 3</h2>
+          <h3 className="text-3xl text-white mt-20">
+            How are you feeling today?
+          </h3>
+        </div>
+        <div className="min-h-40 flex p-8 flex-col gap-4">
+          <fieldset>
+            <legend className="text-lg mb-4">Emotion</legend>
+            <div className="grid grid-cols-2 gap-3">
+              {emotions.map((emotionOption) => (
+                <button
+                  key={emotionOption}
+                  type="button"
+                  onClick={() => handleEmotionChange(emotionOption)}
+                  className={`w-full py-3 px-6 rounded-lg text-base font-medium transition-colors
+                    ${
+                      emotion === emotionOption
+                        ? "bg-[#2563EB] text-white"
+                        : "bg-white text-[#2563EB] border-2 border-[#2563EB]"
+                    }
+                  `}
+                >
+                  {emotionOption.charAt(0).toUpperCase() +
+                    emotionOption.slice(1)}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+        <span
+          id="emotion-error"
+          className="text-red-500 absolute bottom-20 left-8"
+        >
+          {errorMessage}
+        </span>
+      </div>
+    </div>
   );
 };
 
