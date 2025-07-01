@@ -33,17 +33,17 @@ const StepFeeling: React.FC<StepFeelingProps> = ({
         <div className="p-6 flex flex-col gap-3">
           <fieldset>
             <legend className="text-lg mb-3">Feeling</legend>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3">
               {feelings.map((feelingOption) => (
                 <button
                   key={feelingOption}
                   type="button"
                   onClick={() => handleFeelingChange(feelingOption)}
-                  className={`w-full py-2 px-6 rounded-lg text-base font-medium transition-colors
+                  className={`w-full py-2 px-6 rounded-lg text-base font-medium transition-colors border border-[#2563EB]
                     ${
                       feeling === feelingOption
                         ? "bg-[#2563EB] text-white"
-                        : "bg-white text-[#2563EB] border-1 border-[#2563EB]"
+                        : "bg-white text-[#2563EB]"
                     }
                   `}
                 >

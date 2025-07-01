@@ -37,7 +37,7 @@ const StepEmotion: React.FC<StepEmotionProps> = ({
             How are you feeling today?
           </h3>
         </div>
-        <div className="min-h-40 flex p-8 flex-col gap-4">
+        <div className="p-6 flex flex-col gap-3">
           <fieldset>
             <legend className="text-lg mb-4">Emotion</legend>
             <div className="grid grid-cols-2 gap-3">
@@ -46,11 +46,11 @@ const StepEmotion: React.FC<StepEmotionProps> = ({
                   key={emotionOption}
                   type="button"
                   onClick={() => handleEmotionChange(emotionOption)}
-                  className={`w-full py-3 px-6 rounded-lg text-base font-medium transition-colors
+                  className={`w-full py-3 px-6 rounded-lg text-base font-medium transition-colors border border-[#2563EB]
                     ${
                       emotion === emotionOption
                         ? "bg-[#2563EB] text-white"
-                        : "bg-white text-[#2563EB] border-1 border-[#2563EB]"
+                        : "bg-white text-[#2563EB]"
                     }
                   `}
                 >

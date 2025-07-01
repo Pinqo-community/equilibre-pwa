@@ -33,5 +33,5 @@ textarea {
   @apply border border-gray-300 rounded-md p-2 w-full;
 }
 form {
-  @apply flex flex-col gap-4 mx-auto;
+  @apply flex flex-col mx-auto;
 }
