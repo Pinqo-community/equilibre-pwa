@@ -2,7 +2,6 @@ import React from "react";
 
 interface StepNoteProps {
   note: string;
-  errorMessage: string | null;
   setNote: (note: string) => void;
 }
 
@@ -26,7 +25,6 @@ const StepNote: React.FC<StepNoteProps> = ({ note, setNote }) => {
             <textarea
               value={note}
               onChange={handleNoteChange}
-              aria-describedby="note-error"
               className="border-2 border-gray-300 p-2 w-full"
               rows={8}
             />
