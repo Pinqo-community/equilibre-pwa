@@ -145,14 +145,14 @@ const MoodForm: React.FC = () => {
               onClick={handlePrevStep}
               className="px-8 py-3 bg-gray-200 rounded-xl font-medium shadow-sm"
             >
-              Précédent
+              Previous
             </button>
             <button
               type="button"
               onClick={handleNextStep}
               className="px-8 py-3 bg-[#2563EB] rounded-xl text-white font-medium shadow-sm"
             >
-              Suivant
+              Next
             </button>
           </div>
         </div>

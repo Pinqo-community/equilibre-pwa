@@ -43,7 +43,7 @@ const StepFeeling: React.FC<StepFeelingProps> = ({
                     ${
                       feeling === feelingOption
                         ? "bg-[#2563EB] text-white"
-                        : "bg-white text-[#2563EB] border-2 border-[#2563EB]"
+                        : "bg-white text-[#2563EB] border-1 border-[#2563EB]"
                     }
                   `}
                 >
