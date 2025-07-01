@@ -24,7 +24,7 @@ const StepGender: React.FC<StepGenderProps> = ({
   return (
     <div className="flex flex-col flex-1">
       <div className="flex flex-col flex-1">
-        <div className="bg-[#2563EB] flex-1 p-8">
+        <div className="bg-[#2563EB] p-8 h-[50vh] min-h-[200px] max-h-[300px] flex flex-col justify-between">
           <h2 className="mt-8 text-xl">Step 2 on 4</h2>
           <h3 className="text-3xl text-white mt-20">How do you identify?</h3>
         </div>
