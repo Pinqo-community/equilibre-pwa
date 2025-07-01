@@ -125,10 +125,6 @@ const MoodForm: React.FC = () => {
           setNote={(note: string) =>
             setMood((prevState) => ({ ...prevState, note }))
           }
-          errorMessage={mood.errorMessage}
-          setErrorMessage={(errorMessage: string | null) =>
-            setMood((prevState) => ({ ...prevState, errorMessage }))
-          }
         />
       )}
       {mood.currentStepId === "SUCCESS" && <Success />}
