@@ -8,7 +8,6 @@ export const Route = createLazyFileRoute("/mood")({
 function RouteComponent() {
   return (
     <div>
-      <h1>Mood Page</h1>
       <MoodForm />
     </div>
   );

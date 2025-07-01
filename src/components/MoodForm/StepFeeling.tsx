@@ -24,22 +24,22 @@ const StepFeeling: React.FC<StepFeelingProps> = ({
   return (
     <div className="flex flex-col flex-1">
       <div className="flex flex-col flex-1">
-        <div className="bg-[#2563EB] flex-1 p-8">
-          <h2 className="mt-8 text-xl">Step 1 on 3</h2>
-          <h3 className="text-3xl text-white mt-20">
+        <div className="bg-[#2563EB] p-8 h-[40vh] min-h-[200px] max-h-[300px] flex flex-col justify-between">
+          <h2 className="text-xl">Step 1 on 3</h2>
+          <h3 className="text-3xl text-white">
             How would you describe your general feeling?
           </h3>
         </div>
-        <div className="min-h-40 flex p-8 flex-col gap-4">
+        <div className="p-6 flex flex-col gap-3">
           <fieldset>
-            <legend className="text-lg mb-4">Feeling</legend>
-            <div className="flex flex-col gap-3">
+            <legend className="text-lg mb-3">Feeling</legend>
+            <div className="flex flex-col gap-2">
               {feelings.map((feelingOption) => (
                 <button
                   key={feelingOption}
                   type="button"
                   onClick={() => handleFeelingChange(feelingOption)}
-                  className={`w-full py-3 px-6 rounded-lg text-base font-medium transition-colors
+                  className={`w-full py-2 px-6 rounded-lg text-base font-medium transition-colors
                     ${
                       feeling === feelingOption
                         ? "bg-[#2563EB] text-white"
@@ -53,13 +53,12 @@ const StepFeeling: React.FC<StepFeelingProps> = ({
               ))}
             </div>
           </fieldset>
+          <div className="h-6 mt-2">
+            {errorMessage && (
+              <span className="text-red-500">{errorMessage}</span>
+            )}
+          </div>
         </div>
-        <span
-          id="feeling-error"
-          className="text-red-500 absolute bottom-20 left-8"
-        >
-          {errorMessage}
-        </span>
       </div>
     </div>
   );
